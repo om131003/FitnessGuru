@@ -1,0 +1,69 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+
+<!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-6">
+                
+                <div class="card">
+                  <form action="{{url_for('add_member')}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate="">
+                    <div class="card-header">
+                      <h4>Membership form</h4>
+                    </div>
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label>Plan name</label>
+                        <input type="text" name="mp_planname" class="form-control" required="">
+                        <div class="invalid-feedback">
+                          What is plan name ?
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label> Months Duration </label>
+                        <input type="text" name="mp_durationmonths"  class="form-control" required="">
+                        <div class="invalid-feedback">
+                          How many months ?
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>price </label>
+                        <input type="text" name="mp_price" class="form-control" required="">
+                        <div class="invalid-feedback">
+                          what is the price of a plan ?
+                        </div>
+                      </div>
+                       <div class="form-group">
+                        <label>Status</label>
+                        <select class="form-control" name="mp_status" required>
+                          <option value="">Select Status</option>
+                          <option value="1">Active</option>
+                          <option value="0">Deactive</option>
+                        </select>
+                      </div>
+                      <!-- <div class="form-group mb-0">
+                        <label>Exercise_Description	</label>
+                        <textarea class="form-control" required=""></textarea>
+                        <div class="invalid-feedback">
+                          What do you wanna say?
+                        </div>
+                      </div>
+                    </div> -->
+                    <div class="card-footer text-right">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {% endblock %}

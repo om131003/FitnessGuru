@@ -1,0 +1,39 @@
+{% extends "user/u_layout.html" %}
+{% block content %}
+<!-- =========== FITNESS-OUR-PROGRAM =========== -->
+	<section class="fitness-our-program" style="background-image: url(/static/user/assets/img/bg-best.svg);">
+		
+		<div class="container">
+			<h2 class="title-decor"> <span>Exercises</span></h2>
+			<p class="slogan">No pain, no gain.</p>
+			<div class="row">
+                {% for j in data %}
+				<div class="col-sm-4 fitness-program-col">
+					<div class="fitness-program-item">
+						<div class="fitness-program-item-front" style="background-image: url(/static/user/assets/img/home2-program-1.jpg);">
+							<div class="fitness-program-item-inner">
+								<div class="date"></div>
+								<h3>{{j[1]}}</h3>
+							</div>
+						</div>
+						<div class="fitness-program-item-back" style="background-image: url(/static/user/assets/img/home2-program-1.jpg);">
+							<a href="{{ url_for('u_backdetails', exercise_id=j[0]) }}" class="fitness-program-item-inner">
+								<div class="date"></div>
+								<h3>{{j[1]}}</h3>
+							</a>
+						</div>
+
+
+					</div>
+				</div>
+                {% endfor %}
+				
+			</div>
+			<a href="#" class="btn">view more</a>
+		</div>
+	</section>
+	<!-- ========= FITNESS-OUR-PROGRAM END ========= -->
+
+
+
+{% endblock %}

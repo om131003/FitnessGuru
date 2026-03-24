@@ -1,0 +1,90 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+
+<!-- Main Content -->
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12 col-md-6 col-lg-6">
+
+          <div class="card">
+            <form class="needs-validation" action="{{url_for('manageexe')}}" method="POST" enctype="multipart/form-data"
+              novalidate="">
+              <div class="card-header">
+                <h4>Add Exercise</h4>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Exercise Category</label>
+                  <select class="form-control" name="cat_id" required="">
+                    <option value="">Select Category</option>
+                    {% for cat in view_execat %}
+                    <option value="{{cat[0]}}">{{cat[1]}}</option>
+                    {% endfor %}
+                  </select>
+                  <div class="invalid-feedback">
+                    Exercise Name ?
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Exercise Name</label>
+                  <input type="text" class="form-control" name="exercise_name" required="">
+                  <div class="invalid-feedback">
+                    Exercise Name ?
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Exercise video </label>
+                  <input type="file" class="form-control" name="video_url" required="">
+                  <div class="invalid-feedback">
+                    Oh no! video is invalid.
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>Equipment</label>
+                  <input type="text" class="form-control" name="exe_equipment" required="">
+                  <div class="invalid-feedback">
+                    which equipment is going to use in this Exercise ?
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>sets</label>
+                  <input type="text" class="form-control" name="exe_sets" required="">
+                  <div class="invalid-feedback">
+                    how many sets ?
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label>reps</label>
+                  <input type="text" class="form-control" name="exe_reps" required="">
+                  <div class="invalid-feedback">
+                    how many reps ?
+                  </div>
+                </div>
+                <div class="form-group mb-0">
+                        <label>Exercise Description	</label>
+                        <textarea class="form-control" name="exe_description" required=""></textarea>
+                        <div class="invalid-feedback">
+                          What do you wanna say?
+                        </div>
+                      </div>
+                    </div>
+                <div class="card-footer text-right">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+            </form>
+          </div>
+        </div>
+
+        </form>
+      </div>
+    </div>
+</div>
+</div>
+</section>
+
+{% endblock %}

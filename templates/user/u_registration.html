@@ -1,0 +1,57 @@
+{% extends 'user/u_layout.html' %}
+{% block content %}
+
+	<!-- =============== HEADER-TITLE =============== -->
+	<section class="s-header-title" style="background-image: url(/static/user/assets/img/bg-1-min.png);">
+		<div class="container">
+			<h1 class="title">REGISTRATION</h1>
+		</div>
+	</section>
+	<!-- ============= HEADER-TITLE END ============= -->
+	
+
+
+	<!-- ================ S-CONTACTS ================ -->
+	<section class="s-contacts" style="background-image: url(/static/user/assets/img/bg-contacts.svg);">
+		<div class="container">
+			<h2 class="title-decor">REGISTRATION <span>FORM</span></h2>
+			
+			<div class="row">
+				
+				<div class="col-md-7 col-lg-8" style="margin-left:230px;">
+					<form id='registrationform' action="{{url_for('u_registrationprocess')}}" method="post">
+						<ul class="form-cover">
+							<li class="inp-name">
+								<label>Name * (required)</label>
+								<input id="name" type="text" name="u_name">
+							</li>
+                            <li class="inp-name">
+								<label>Phone Number * (required)</label>
+								<input id="phone" type="text" name="u_phone">
+							</li>
+                            
+							<li class="inp-email">
+								<label>E-mail * (required)</label>
+								<input id="email" type="email" name="u_email">
+							</li>
+                            <li class="inp-name">
+								<label>Password * (required)</label>
+								<input id="password" type="password" name="u_password">
+							</li>
+							<li class="inp-text">
+								<label>Address * (required)</label>
+								<textarea id="comments" name="u_address"></textarea>
+							</li>
+						</ul>
+						
+						<div class="btn-form-cover">
+							<button id="#submit" type="submit" class="btn">submit</button>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+{% endblock %}
+	

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="zxx">
+
+<head>
+	<meta charset="UTF-8">
+	<title>FITNESS GURU</title>
+	<!-- =================== META =================== -->
+	<meta name="keywords" content="">
+	<meta name="description" content="">
+	<meta name="format-detection" content="telephone=no">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+	<link rel="shortcut icon" href="/static/user/assets/img/favicon.png">
+	<!-- =================== STYLE =================== -->
+	<link rel="stylesheet" href="/static/user/assets/css/slick.min.css">
+	<link rel="stylesheet" href="/static/user/assets/css/bootstrap-grid.css">
+	<link rel="stylesheet" href="/static/user/assets/css/font-awesome.min.css">
+	<link rel="stylesheet" href="/static/user/assets/css/style.css">
+</head>
+
+<body id="home">
+	<!--================ PRELOADER ================-->
+	
+	<!--============== PRELOADER END ==============-->
+	
+	<!-- ================= HEADER ================= -->
+	<header class="header">
+		<a href="#" class="nav-btn">
+			<span></span>
+			<span></span>
+			<span></span>
+		</a>
+		<div class="top-panel">
+			<div class="container">
+				<div class="header-left">
+					<ul class="header-cont">
+						<li><i class="fa fa-phone" aria-hidden="true"></i><a href="tel:18004886040">1-800-488-6040</a></li>
+						<li><i class="fa fa-clock-o" aria-hidden="true"></i>Mon - Fri: 8:00AM - 7:00PM | Sat - Sun: Closed</li>
+					</ul>
+				</div>
+				<div class="header-right">
+					<form class="search-form">
+						<input type="search" class="search-form__field" placeholder="Search" value="" name="s">
+						<button type="submit" class="search-form__submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+					</form>
+					<ul class="social-list">
+						<li><a target="_blank" href="https://www.facebook.com/rovadex"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://twitter.com/RovadexStudio"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://www.youtube.com/"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://www.instagram.com/rovadex"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+		<div class="header-menu">
+			<div class="container">
+				<div class="header-logo">
+					<a href="index-2.html" class="logo"><img src="/static/user/assets/img/logo.svg" alt="logo"></a>
+				</div>
+				<nav class="nav-menu">
+					<ul class="nav-list">
+						<li class="dropdown">
+							<a href="u_dashboard">Home </a>
+							
+						</li>
+						<li><a href="u_shopping">Shoping</a></li>
+						<li><a href="services.html">Recipes</a></li>
+						<!-- <li class="dropdown">
+							<a href="#">Pages <i class="fa fa-caret-down"></i></a>
+							<ul>
+								<li><a href="program.html">Program</a></li>
+								<li><a href="trainer.html">Trainer</a></li>
+							</ul>
+						</li> -->
+						<li><a href="u_contact">Contacts</a></li>
+						{% if(session.u_id==null): %}
+
+						<li><a href="/u_login">Login</a></li>
+						{% else: %}
+						<li><a href="/u_logout">logout</a></li>
+						<li><a href="#"style="color:#f4313f;" >Welcome {{session.u_name}}</a></li>
+
+						{% endif %}
+						
+					</ul>
+				</nav>
+			</div>
+		</div>
+	</header>
+	<!-- =============== HEADER END =============== -->
+
+{% block content %}
+{% endblock %}
+
+<!-- ================== FOOTER ================== -->
+	<footer>
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-lg-3 footer-item-logo">
+					<a href="index-2.html" class="logo-footer"><img src="/static/user/assets/img/footer-logo2.svg" alt="logo"></a>
+					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p>
+					<ul class="social-list">
+						<li><a target="_blank" href="https://www.facebook.com/rovadex"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://twitter.com/RovadexStudio"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://www.youtube.com/"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://www.instagram.com/rovadex"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+					</ul>
+				</div>
+				<div class="col-sm-6 col-lg-3 footer-item footer-item-list">
+					<h3>Links</h3>
+					<ul class="footer-link">
+						<li><a href="#">Sed ut perspiciatis unde</a></li>
+						<li><a href="#">Omnis iste natus error sit</a></li>
+						<li><a href="#">Voluptatem accusantium</a></li>
+						<li><a href="#">Doloremque laudantium</a></li>
+					</ul>
+				</div>
+				<div class="col-sm-6 col-lg-3 footer-item">
+					<h3>Contact us</h3>
+					<ul class="footer-cont">
+						<li><i class="fa fa-phone" aria-hidden="true"></i><a href="tel:18004886040">1-800-488-6040</a></li>
+						<li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:crossFit@gmail.com">CrossFit@gmail.com</a></li>
+						<li><i class="fa fa-map-marker" aria-hidden="true"></i><a href="contacts.html">London,Street 225r.21</a></li>
+					</ul>
+				</div>
+				<div class="col-sm-6 col-lg-3 footer-item">
+					<h3>Blog</h3>
+					<ul class="footer-blog">
+						<li>
+							<a href="blog.html" class="img-cover"><img src="/static/user/assets/img/footer-icon-1.jpg" alt="img"></a>
+							<div class="footer-blog-info">
+								<div class="name"><a href="blog.html">Sed ut perspiciatis</a></div>
+								<p>Omnis iste natus error sit voluptatem…</p>
+							</div>
+						</li>
+						<li>
+							<a href="blog.html" class="img-cover"><img src="/static/user/assets/img/footer-icon-2.jpg" alt="img"></a>
+							<div class="footer-blog-info">
+								<div class="name"><a href="blog.html">Sed ut perspiciatis</a></div>
+								<p>Omnis iste natus error sit voluptatem…</p>
+							</div>
+						</li>
+					</ul>
+				</div>
+			</div>
+			<div class="footer-bottom">
+				<div class="copyright"><a href="#" target="_blank"></a></div>
+				<ul class="footer-menu">
+					<li class="active"><a href="index-2.html">Home</a></li>
+					<li><a href="about.html">About</a></li>
+					<li><a href="services.html">Services</a></li>
+					<li><a href="blog.html">News</a></li>
+					<li><a href="contacts.html">Contacts</a></li>
+				</ul>
+			</div>
+		</div>
+	</footer>
+	<!-- ================ FOOTER END ================ -->
+
+	<!--=================== TO TOP ===================-->
+	<a class="to-top" href="#home">
+		<i class="fa fa-chevron-up" aria-hidden="true"></i>
+	</a>
+	<!--================= TO TOP END =================-->
+
+	<!--=================== SCRIPT	===================-->
+	<script src="/static/user/assets/js/jquery-2.2.4.min.js"></script>
+	<script src="/static/user/assets/js/slick.min.js"></script>
+	<script src="/static/user/assets/js/rx-lazy.js"></script>
+	<script src="/static/user/assets/js/parallax.min.js"></script>
+	<script src="/static/user/assets/js/scripts.js"></script>
+</body>
+
+</html>

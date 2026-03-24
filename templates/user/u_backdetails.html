@@ -1,0 +1,77 @@
+{% extends "user/u_layout.html" %}
+{% block content %}
+<!-- ============== S-ABOUT-PROGRAM ============== -->
+	<section class="s-about">
+		<div class="container">
+			<img class="about-effect-tringle" src="/static/user/assets/img/tringle-about-top.svg" alt="img">
+			<div class="row about-row">
+                {% for j in data %}
+				<div class="col-md-5 about-img-col">
+					<div class="about-img-cover">
+						<div class="about-img-1">
+						
+							<video   height="50%" width="60%" controls autoplay>
+								<source src="../{{ j[3] }}" type="video/mp4">
+                            
+                            </video>
+						</div>
+						
+					</div>
+				</div>
+				<div class="col-md-7 about-info-cover">
+					<h2 class="title-decor">Exercise <span>Details</span></h2>
+					<div class="text">
+						<p>{{ j[7] }}</p>
+                        
+
+					</div>
+					
+				</div>
+                
+            {% endfor %}
+			</div>
+		</div>
+	</section>
+	<!-- ============ S-ABOUT-PROGRAM END ============ -->
+     <!-- ============== S-ABOUT-BOTTOM ============== -->
+	<section class="s-about-bottom">
+		<div class="container">
+			<div class="row">
+                {% for j in data %}
+				<div class="col-md-4">
+					<div class="about-bottom-item">
+						<div class="date-cover">
+							
+							<h4>Equipment</h4>
+						</div>
+						<div class="about-bottom-info">{{ j[4] }}</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="about-bottom-item">
+						<div class="date-cover">
+							
+							<h4> Sets</h4>
+						</div>
+						<div class="about-bottom-info">{{ j[5] }}</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="about-bottom-item">
+						<div class="date-cover">
+							
+							<h4>Reps</h4>
+						</div>
+						<div class="about-bottom-info">{{ j[6] }}</div>
+					</div>
+				</div>
+                {% endfor %}
+			</div>
+		</div>
+	</section>
+	<!-- ============ S-ABOUT-BOTTOM END ============ -->
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+
+<!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-6">
+                
+                <div class="card">
+                  <form action="{{url_for('update_dietplan')}}" enctype="multipart/form-data" method="POST" class="needs-validation" novalidate="">
+                    {% for j in view_dietplan %}
+                    <div class="card-header">
+                      <h4>Diet plan form</h4>
+                    </div>
+                    <div class="card-body">
+                        <input type="text" name="diet_id" value="{{j[0]}}" hidden>
+                      <div class="form-group">
+                        <label>Category</label>
+                        <select class="form-control" required="" name="dietcat_id">
+                          <option value="">Select category</option>
+                          {% for cat in view_dietcat %}
+                          <option value="{{cat[0]}}" {% if cat[0] == j[1] %}selected{% endif %}>{{cat[1]}}</option>
+                          {% endfor %}
+
+                        </select>
+
+                        <div class="invalid-feedback">
+                          category name ?
+                        </div>
+                      </div>
+
+
+                      <div class="form-group">
+                        <label>Recipe name  </label>
+                        <input type="text" name="dp_recipename" value="{{j[2]}}" class="form-control" required="">
+                        <div class="invalid-feedback">
+                          recipe name ?
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Meal type</label>
+                        <input type="text" class="form-control" name="dp_mealtype" value="{{j[3]}}" required="" placeholder="ex. veg or nonveg">
+                        <div class="invalid-feedback">
+                          meal type (veg,non veg) ?
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Diet type</label>
+                        <input type="text" class="form-control" name="dp_diettype" value="{{j[4]}}" required=""placeholder="ex. Bulking or Cutting">
+                        <div class="invalid-feedback">
+                          for bulking or cutting ?
+                        </div>
+                      </div>
+                       <div class="form-group">
+                        <label>image</label>
+                        <input type="file" class="form-control" name="dp_image" value="{{j[5]}}" required=""placeholder="image">
+                    
+                        <img src="../{{j[5]}}" width="130" height="130">
+                        <div class="invalid-feedback">
+                         image?
+                        </div>
+                      </div>
+                      <div class="form-group mb-0">
+                        <label>Description	</label>
+                        <textarea class="form-control" name="dp_description" required="">{{j[6]}}</textarea>
+                        <div class="invalid-feedback">
+                          what is description ?
+                        </div>
+                      </div>
+                    </div>
+                    {% endfor %}
+                    <div class="card-footer text-right">
+                      <button type="submit" class="btn btn-primary">Update</button>
+                        <a href="{{url_for('view_dietplans')}}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {% endblock %}

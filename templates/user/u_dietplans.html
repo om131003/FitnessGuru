@@ -1,0 +1,24 @@
+{% extends "user/u_layout.html" %}
+{% block content %}
+
+<section class="s-best-trainer">
+    <div class="container">
+        <h2 class="title-decor">Diet <span>Plans</span></h2>
+    </div>
+
+    <div class="best-trainer-slider">
+        {% for j in data1 %}
+
+        <a href="{{ url_for('u_dietdetails', diet_id=j[0]) }}" class="best-trainer-slide">
+            <div class="best-trainer-img">
+                <img src="/{{ j[5] }}" alt="img">
+            </div>
+            <h3 class="name">{{ j[2] }}</h3>
+            <div class="prof">{{ j[4] }}</div>
+        </a>
+
+        {% endfor %}
+    </div>
+</section>
+
+{% endblock %}

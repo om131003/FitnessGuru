@@ -1,0 +1,55 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12 col-md-6 col-lg-6">
+          
+          <div class="card">
+            <form action="{{ url_for('update_execat', cat_id=edit_execat[0]) }}" 
+                  method="POST" 
+                  enctype="multipart/form-data">
+
+              <div class="card-header">
+                <h4>Exercise category</h4>
+              </div>
+
+              <div class="card-body">
+                
+                <div class="form-group">
+                  <label>Category name</label>
+                  <input type="text" class="form-control" name="cat_name"  value="{{ edit_execat[1] }}" required>
+                </div>
+
+                <div class="form-group">
+                  <label>Exercise Image</label>
+                  <input type="file" class="form-control" value="edit_execat[2]" name="cat_image">
+                  <img src="../{{edit_execat[2]}}" height="100" width="100">
+                </div>
+
+                <div class="form-group mb-0">
+                  <label>Exercise Description</label>
+                  <textarea class="form-control" name="exercise_description" required>{{ edit_execat[3] }}
+                  </textarea>
+                </div>
+
+              </div>
+
+              <div class="card-footer text-right">
+                <button type="submit" class="btn btn-primary">Update</button>
+                <a href="{{ url_for('view_execat') }}" class="btn btn-secondary">Cancel</a>
+              </div>
+
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+{% endblock %}

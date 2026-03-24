@@ -1,0 +1,54 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+
+<!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-6">
+                
+                <div class="card">
+                  <form action="{{ url_for('add_execat') }}" method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
+                    <div class="card-header">
+                      <h4>Exercise category </h4>
+                    </div>
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label>Category name</label>
+                        <input type="text" class="form-control" name="cat_name" required="">
+                        <div class="invalid-feedback">
+                          which body mussels ?
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Exercise Image</label>
+                        <input type="file" class="form-control" name="cat_image" required="">
+                        <div class="invalid-feedback">
+                          image!
+                        </div>
+                      </div>
+                      <div class="form-group mb-0">
+                        <label>Exercise Description	</label>
+                        <textarea class="form-control"name="exercise_description" required="" placeholder="message"></textarea>
+                        <div class="invalid-feedback">
+                          What do you wanna say?
+                        </div>
+                      </div>
+                    </div>
+                    <div class="card-footer text-right">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+                </div>
+              </div>
+              
+              
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {% endblock %}

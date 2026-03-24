@@ -1,0 +1,75 @@
+{% extends "user/u_layout.html" %}
+{% block content %}
+<!-- ============== S-ABOUT-PROGRAM ============== -->
+	<section class="s-about">
+		<div class="container">
+			<img class="about-effect-tringle" src="/static/user/assets/img/tringle-about-top.svg" alt="img">
+			<div class="row about-row">
+                {% for j in data %}
+				<div class="col-md-5 about-img-col">
+					<div class="about-img-cover">
+						<div class="about-img-1">
+							<img class="about-img-effect-1" src="/static/user/assets/img/square-yellow.svg" alt="img">
+							<img class="about-img-effect-2" src="/static/user/assets/img/group-circle-2.svg" alt="img">
+							<img src="../{{j[5]}}" alt="img" height="500" width="500" >
+						</div>
+						<!-- <div class="about-img-2">
+							<img src="/static/user/assets/img/about-top-2.jpg" alt="img">
+						</div> -->
+					</div>
+				</div>
+				<div class="col-md-7 about-info-cover">
+					<h2 class="title-decor">Diet <span>Details</span></h2>
+					<div class="text">
+						<p> {{j[6]}}</p>
+					</div>
+				{% endfor %}	
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- ============ S-ABOUT-PROGRAM END ============ -->
+
+	<!-- ============== S-ABOUT-BOTTOM ============== -->
+	<section class="s-about-bottom">
+		<div class="container">
+			<div class="row">
+				{% for j in data %}
+				
+					<div class="col-md-4">
+					<div class="about-bottom-item">
+						<div class="date-cover">
+							
+							<h4>Reciep Name</h4>
+						</div>
+						<div class="about-bottom-info">{{j[2]}}</div>
+					</div>
+				</div>
+				
+				<div class="col-md-4">
+					<div class="about-bottom-item">
+						<div class="date-cover">
+							<h4>Diet Type</h4>
+						</div>
+						<div class="about-bottom-info">{{j[4]}}</div>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="about-bottom-item">
+						<div class="date-cover">
+							
+							<h4>Meal Type</h4>
+						</div>
+						<div class="about-bottom-info">{{j[3]}}</div>
+					</div>
+				</div>
+				{% endfor %}
+			</div>
+		</div>
+	</section>
+	<!-- ============ S-ABOUT-BOTTOM END ============ -->
+
+     <br><br><br><br><br><br><br><br><br><br><br><br><br>
+
+
+{% endblock %}

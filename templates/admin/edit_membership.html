@@ -1,0 +1,67 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+
+<!-- Main Content -->
+      <div class="main-content">
+        <section class="section">
+          <div class="section-body">
+            <div class="row">
+              <div class="col-12 col-md-6 col-lg-6">
+                
+                <div class="card">
+                  <form action="{{url_for('update_membership')}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate="">
+                    {% for j in view_membership %}
+                    <div class="card-header">
+                      <h4>Membership form</h4>
+                    </div>
+                    <div class="card-body">
+                      <div class="form-group">
+                        <label>Plan name</label>
+                        <input type="text" name="mp_planname" value="{{j[1]}}" class="form-control" required="">
+                        <div class="invalid-feedback">
+                          What is plan name ?
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>Duration (months)</label>
+                        <input type="text" name="mp_durationmonths" value="{{j[2]}}"  class="form-control" required="">
+                        <div class="invalid-feedback">
+                          How many months ?
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label>price </label>
+                        <input type="text" name="mp_price" value="{{j[3]}}" class="form-control" required="">
+                        <div class="invalid-feedback">
+                          what is the price of a plan ?
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label>Status</label>
+                        <input type="hidden" name="membership_id" value="{{j[0]}}">
+                        <select class="form-control" value="{{j[4]}}" name="mp_status" required>
+                          <option value="">Select Status</option>
+                          <option value="1" {% if j[4] == 1 %}selected{% endif %}>Active</option>
+                          <option value="0" {% if j[4] == 0 %}selected{% endif %}>Deactive</option>
+                        </select>
+                      </div>
+                      
+              {% endfor %}
+
+                    <div class="card-footer text-right">
+                      <button type="submit" class="btn btn-primary">Update</button>
+                      <a href ="{{url_for('view_membership')}}" class="btn btn-secondary">Cancel</a>
+                    </div>
+                  </form>
+                </div>
+              </div>
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {% endblock %}

@@ -1,0 +1,59 @@
+{% extends 'user/u_layout.html' %}
+
+{% block content %}
+
+<body id="home">
+
+
+	<!-- =============== HEADER-TITLE =============== -->
+	<section class="s-header-title" style="background-image: url(/static/user/assets/img/bg-1-min.png);">
+		<div class="container">
+			<h1 class="title">LOGIN</h1>
+		</div>
+	</section>
+	<!-- ============= HEADER-TITLE END ============= -->
+
+
+	<!-- ================ S-CONTACTS ================ -->
+	<section class="s-contacts" style="background-image: url(/static/user/assets/img/bg-contacts.svg);">
+		<div class="container">
+			<h2 class="title-decor">LOGIN <span>FORM</span></h2>
+
+			<div class="row">
+
+				<div class="col-md-6 col-lg-6" style="margin-left:330px;">
+					<form id="registrationform" action="{{url_for('u_loginprocess')}}" method="POST">
+						<ul class="form-cover">
+
+							<li class="inp-email">
+								<label>E-mail * (required)</label>
+								<input id="email" type="email" name="u_email" required>
+							</li>
+
+							<li class="inp-name">
+								<label>Password * (required)</label>
+								<input id="password" type="password" name="u_password" required>
+							</li>
+
+						</ul>
+
+						<div class="btn-form-cover">
+							<button id="submit" type="submit" class="btn">Submit</button>
+						
+						</div>
+
+						<div>
+							<p>
+								Don't have an account yet?
+								<a href="/u_registration" style="color:#f4313f;">Register here</a>
+							</p>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- ============== S-CONTACTS-END ============== -->
+
+
+	{% endblock %}

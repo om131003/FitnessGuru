@@ -1,0 +1,38 @@
+{% extends 'user/u_layout.html' %}
+
+{% block content %}
+<!-- ============== S-OUR-PROGRAMS ============== -->
+	<section class="s-our-programs" style="background-image: url(assets/img/bg-programs.jpg);">
+		<div class="mask"></div>
+		<div class="container">
+			<h2 class="title-decor">Exercise <span>Category</span></h2>
+			<div class="row">
+
+				{% for j in data %}
+				<div class="col-sm-6 col-md-3 program-col">
+					<div class="program-item">
+						<div class="program-item-front" style="background-image: url('/{{ j[2].replace('execat_image', 'execat_image/') }}');">
+							<div class="program-item-inner">
+								<h3>{{j[1]}}</h3>
+							</div>
+						</div>
+						<div class="program-item-back" style="background-image: url('/{{ j[2].replace('execat_image', 'execat_image/') }}');">
+							<div class="program-item-inner">
+								<h3>{{j[1]}}</h3>
+								<a href="{{ url_for('u_catexercise',cat_id=j[0]) }}" class="btn">More</a>
+							</div>
+						</div>
+				
+				    </div>
+						
+					
+				</div>
+				{% endfor %}
+
+
+
+			</div>
+		</div>
+	</section>
+	<!-- ============ S-OUR-PROGRAMS END ============ -->
+{% endblock %}

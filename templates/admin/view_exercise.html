@@ -1,0 +1,67 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12 col-md-6 col-lg-11">
+          <div class="card">
+            <div class="card-header">
+              <h4>Diet plans Table</h4>
+            </div>
+            <div class="card-body">
+
+              <table class="table table-bordered table-md">
+                <tr>
+                  <th>#</th>
+                  <th>Exercise category</th>
+                  <th>Exercise name</th>
+                  <th>Exercise video</th>
+                  <th>Exercise equipment</th>
+                  <th>Exercise sets</th>
+                  <th>Exercise reps</th>
+                  <th>Exercise description</th>
+
+                  <th>Action</th>
+                </tr>
+
+
+                <tbody>
+                  {% set count=1 %}
+                  {% for exeview in view_exercise %}
+                  {% set count = loop.index %}
+                  <tr>
+                    <td>{{count}}</td>
+                    <td>{{exeview[1]}}</td>
+                    <td>{{exeview[2]}}</td>
+                    <td><video  src="{{exeview[3]}}" height="100" width="100" autoplay></td>
+                    <td>{{exeview[4]}}</td>
+                    <td>{{exeview[5]}}</td>
+                    <td>{{exeview[6]}}</td>
+                    <td>{{exeview[7]}}</td>
+                    
+
+
+
+                    <td><a class="btn btn-danger" href="{{url_for('delete_exercise',exercise_id =exeview[0])}}" onclick="return confirm('Are you sure to delete this exercise?')">Delete
+                    </a>
+                  <a class="btn btn-primary" href="{{url_for('edit_exercise',exercise_id =exeview[0])}}">Edit</a> </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+{% endblock %}

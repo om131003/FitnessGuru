@@ -1,0 +1,56 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12 col-md-6 col-lg-11">
+          <div class="card">
+            <div class="card-header">
+              <h4>reciepe steps Table</h4>
+            </div>
+            <div class="card-body">
+
+              <table class="table table-bordered table-md">
+                <tr>
+                  <th>#</th>
+                  <th>reciepe name</th>
+                
+                  <th>description</th>
+
+                  <th>Action</th>
+                </tr>
+
+
+                <tbody>
+                  {% set count=1 %}
+                  {% for restep in view_resteps %}
+                  {% set count = loop.index %}
+                  <tr>
+                    <td>{{count}}</td>
+                    <td>{{restep[0]}}</td>
+                    <td>{{restep[3]}}</td>
+
+
+
+                    <td><a class="btn btn-danger" href="{{url_for('delete_resteps',steps_id =restep[1])}}" onclick="return confirm('Are you sure to delete this category?')">Delete</a>
+                    <a class ="btn btn-primary" href="{{url_for('edit_steps',steps_id =restep[1])}}" >Edit</a></td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+
+              </table>
+
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+{% endblock %}
