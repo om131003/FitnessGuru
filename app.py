@@ -921,7 +921,13 @@ def u_recieps():
     data=cursor.fetchall()
     return render_template("user/u_recieps.html",data=data)
 
-
+@app.route("/u_recipesteps/<int:diet_id>")
+def u_recipesteps(diet_id):
+    cursor=conn.cursor()
+    query = "select t.diet_id, d.dp_recipename, d.dp_image, t.st_description from table_recipesteps t join tbl_dietplans d on t.diet_id=d.diet_id where t.diet_id=%s"
+    cursor.execute(query,diet_id)
+    data=cursor.fetchall()
+    return render_template("user/u_recipesteps.html", data=data)
 
 
 
