@@ -2652,6 +2652,7 @@ ol {
     border-color: #e4e6fc
 }
 
+
 .form-control:focus,
 .input-group-text:focus,
 .custom-select:focus,
@@ -2669,7 +2670,7 @@ select.form-control:not([size]):not([multiple]),
 }
 
 textarea.form-control {
-    height: 64px !important
+    height: 150px !important
 }
 
 .custom-control {

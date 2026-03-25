@@ -552,77 +552,7 @@ def update_dietplan():
 
 
 
-                    # recipe ingredients
 
-@app.route("/recieping")
-def recieping():
-    cursor = conn.cursor()
-    query = "SELECT * FROM tbl_dietplans"
-    cursor.execute(query)
-    view_dietplans = cursor.fetchall()
-    return render_template("admin/recieping.html", view_dietplans=view_dietplans)
-    
-
-@app.route("/add_recipeing", methods=["POST"])
-def add_recipeing():
-    cursor = conn.cursor()
-    diet_id = request.form['diet_id']
-    ri_ingredientname = request.form['ri_ingredientname']
-    ri_quantity =request.form['ri_quantity']
-
-    query = "INSERT INTO tbl_recipeingredients(diet_id,ri_ingredientname,ri_quantity)VALUES(%s,%s,%s)"
-    val = (diet_id,ri_ingredientname,ri_quantity)
-    cursor.execute(query,val)
-
-    conn.commit()
-    cursor.close()
-    return redirect(url_for('dashboard'))
-
-@app.route("/view_recieping")
-def view_recieping():
-     cursor = conn.cursor()
-     query = "SELECT a.dp_recipename,b.* FROM tbl_dietplans as a,tbl_recipeingredients as b WHERE a.diet_id=b.diet_id"
-     cursor.execute(query)
-     view_recieping = cursor.fetchall()
-     return render_template("admin/view_recieping.html",view_recieping=view_recieping)
-   
-@app.route('/delete_reccat/<int:ingredient_id>')
-def delete_reccat(ingredient_id):
-    cursor = conn.cursor()
-    query = "DELETE FROM tbl_recipeingredients WHERE ingredient_id =%s"
-    val=(ingredient_id )
-    cursor.execute(query,val)
-    conn.commit()
-    return redirect(url_for('view_recieping'))
-
-@app.route("/edit_reccat/<int:ingredient_id>")
-def edit_reccat(ingredient_id): 
-    cursor = conn.cursor()
-    qurey = "SELECT * FROM tbl_dietplans"   
-    cursor.execute(qurey)
-    view_dietplans = cursor.fetchall()
-
-    query1 = "SELECT * FROM tbl_recipeingredients WHERE ingredient_id=%s"
-    val=(ingredient_id)
-    cursor.execute(query1,val)
-    view_reccat = cursor.fetchall()
-    cursor.close()
-    return render_template("admin/edit_ingredient.html", view_dietplans=view_dietplans, view_reccat=view_reccat)
-
-@app.route("/update_reccat", methods=["POST"])
-def update_reccat():
-    cursor = conn.cursor()
-    ingredient_id = request.form['ingredient_id']
-    diet_id = request.form['diet_id']
-    ri_ingredientname = request.form['ri_ingredientname']
-    ri_quantity =request.form['ri_quantity']
-
-    query = "UPDATE tbl_recipeingredients SET diet_id=%s, ri_ingredientname=%s, ri_quantity=%s WHERE ingredient_id=%s"
-    val = (diet_id, ri_ingredientname, ri_quantity, ingredient_id)
-    cursor.execute(query, val)
-    conn.commit()
-    cursor.close()
-    return redirect(url_for('view_recieping'))
 
 
 
@@ -643,18 +573,18 @@ def steps():
 @app.route("/add_steps", methods=["POST"])
 def add_steps():
     cursor = conn.cursor()
-    recipe_name = request.form['recipe_name']
-
-    st_description =request.form['st_description']
 
     recipe_name = request.form['recipe_name']
+    st_description = request.form['st_description']
+    st_ingredients = request.form['st_ingredients']   
 
-    query = "INSERT INTO table_recipesteps(diet_id,st_description)VALUES(%s,%s)"
-    val = (recipe_name,st_description)
-    cursor.execute(query,val)
+    query = "INSERT INTO table_recipesteps(diet_id,st_description,st_ingredients) VALUES (%s,%s,%s)"
+    val = (recipe_name, st_description, st_ingredients)
 
+    cursor.execute(query, val)
     conn.commit()
     cursor.close()
+
     return redirect(url_for('dashboard'))
 
 
@@ -701,9 +631,10 @@ def update_steps():
     steps_id = request.form['steps_id']
     diet_id = request.form['diet_id']
     st_description = request.form['st_description']
+    st_ingredients = request.form['st_ingredients']   
 
-    query = "UPDATE table_recipesteps SET diet_id=%s, st_description=%s WHERE steps_id=%s"
-    val = (diet_id, st_description, steps_id)
+    query = "UPDATE table_recipesteps SET diet_id=%s, st_description=%s, st_ingredients=%s WHERE steps_id=%s"
+    val = (diet_id, st_description, st_ingredients, steps_id)
 
     cursor.execute(query, val)
     conn.commit()
@@ -924,7 +855,7 @@ def u_recieps():
 @app.route("/u_recipesteps/<int:diet_id>")
 def u_recipesteps(diet_id):
     cursor=conn.cursor()
-    query = "select t.diet_id, d.dp_recipename, d.dp_image, t.st_description from table_recipesteps t join tbl_dietplans d on t.diet_id=d.diet_id where t.diet_id=%s"
+    query = "SELECT t.diet_id,d.dp_recipename,d.dp_image, t.st_description,t.st_ingredients FROM table_recipesteps t JOIN tbl_dietplans d ON t.diet_id = d.diet_id WHERE t.diet_id = %s;"
     cursor.execute(query,diet_id)
     data=cursor.fetchall()
     return render_template("user/u_recipesteps.html", data=data)
