@@ -54,16 +54,16 @@
 		<div class="header-menu">
 			<div class="container">
 				<div class="header-logo">
-					<a href="index-2.html" class="logo"><img src="/static/user/assets/img/logo.svg" alt="logo"></a>
+					<a href="{{ url_for('u_dashboard') }}" class="logo"><img src="/static/user/assets/img/logo.svg" alt="logo"></a>
 				</div>
 				<nav class="nav-menu">
 					<ul class="nav-list">
 						<li class="dropdown">
-							<a href="u_dashboard">Home </a>
+							<a href="{{ url_for('u_dashboard') }}">Home </a>
 							
 						</li>
-						<li><a href="u_shopping">Shoping</a></li>
-						<li><a href="services.html">Recipes</a></li>
+						<li><a href="{{ url_for('u_shopping')}}">Shopping</a></li>
+						<li><a href="{{ url_for('u_recieps')}}">Recipes</a></li>
 						<!-- <li class="dropdown">
 							<a href="#">Pages <i class="fa fa-caret-down"></i></a>
 							<ul>
@@ -71,7 +71,7 @@
 								<li><a href="trainer.html">Trainer</a></li>
 							</ul>
 						</li> -->
-						<li><a href="u_contact">Contacts</a></li>
+						<li><a href="{{ url_for('u_contact')}}">Contacts</a></li>
 						{% if(session.u_id==null): %}
 
 						<li><a href="/u_login">Login</a></li>

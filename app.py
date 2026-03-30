@@ -786,8 +786,21 @@ def u_contactprocess():
 
 # <===================USER SHOPPING==================>
 @app.route("/u_shopping")
-def u_shoping():
-    return render_template("user/u_shopping.html")
+def u_shopping():
+    cursor = conn.cursor()
+    query = "SELECT * FROM table_product"
+    cursor.execute(query)
+    data=cursor.fetchall() 
+    return render_template("user/u_shopping.html",data=data)
+
+@app.route("/u_productinfo/<int:product_id>")
+def u_productinfo(product_id):
+    cursor = conn.cursor()
+    query = "SELECT * FROM table_product WHERE product_id=%s"
+    val=(product_id,)
+    cursor.execute(query,val)
+    data = cursor.fetchall()
+    return render_template("user/u_productinfo.html",data=data)
 
 
 # <===================USER EXERCISE==================>
@@ -856,8 +869,8 @@ def u_recieps():
 def u_recipesteps(diet_id):
     cursor=conn.cursor()
     query = "SELECT t.diet_id,d.dp_recipename,d.dp_image, t.st_description,t.st_ingredients FROM table_recipesteps t JOIN tbl_dietplans d ON t.diet_id = d.diet_id WHERE t.diet_id = %s;"
-    cursor.execute(query,diet_id)
-    data=cursor.fetchall()
+    cursor.execute(query,(diet_id,))
+    data=cursor.fetchall()  
     return render_template("user/u_recipesteps.html", data=data)
 
 
