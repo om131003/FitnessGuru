@@ -1,0 +1,161 @@
+{% extends "user/u_layout.html" %}
+{% block content %}
+
+<!-- =============== HEADER-TITLE =============== -->
+	<section class="s-header-title" style="background-image: url(/static/user/assets/img/bg-1-min.png);">
+		<div class="container">
+			<h1 class="title">Your Cart</h1>
+			<ul class="breadcrambs">
+				<li><a href="#">Home</a></li>
+				<li>Your Cart</li>
+			</ul>
+		</div>
+	</section>
+	<!-- ============= HEADER-TITLE END ============= -->
+<style>
+body {
+    background: #202020;
+    color: #fff;
+}
+
+.cart-container {
+    margin-top: 50px;
+}
+
+.cart-card {
+    background: #272a31;
+    border-radius: 15px;
+    padding: 20px;
+    margin-bottom: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.cart-img {
+    width: 90px;
+    border-radius: 10px;
+}
+
+.qty-box {
+    width: 70px;
+    text-align: center;
+    background: #0f172a;
+    color: #fff;
+    border: 1px solid #334155;
+}
+
+.summary-box {
+    background: #272a31;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.btn-checkout {
+    width: 100%;
+    border-radius: 10px;
+    font-weight: bold;
+    background: linear-gradient(45deg, #f4313f);
+    border: none;
+}
+
+.btn-checkout:hover {
+    opacity: 0.9;
+}
+
+.btn-danger {
+    background: #f4313f;
+    border: none;
+}
+
+.text-muted {
+    color: #94a3b8 !important;
+}
+
+hr {
+    border-color: #334155;
+}
+
+@media (max-width: 768px) {
+    .cart-flex {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+</style>
+
+<div class="container cart-container">
+    
+
+    <div class="row">
+
+        <!-- Cart Items -->
+        <div class="col-lg-8">
+
+            <!-- Item 1 -->
+            <div class="cart-card">
+                <div class="d-flex justify-content-between align-items-center cart-flex">
+                    
+                    <div class="d-flex align-items-center">
+                        <img src="https://via.placeholder.com/90" class="cart-img me-3">
+                        <div>
+                            <h5>Protein Powder</h5>
+                            <p class="text-muted mb-0">₹ 1200</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mt-3 mt-lg-0">
+                        <input type="number" value="1" class="form-control qty-box me-2">
+                        <strong>₹ 1200</strong>
+                    </div>
+
+                    <button class="btn btn-danger btn-sm mt-3 mt-lg-0">Remove</button>
+
+                </div>
+            </div>
+
+            <!-- Item 2 -->
+            <div class="cart-card">
+                <div class="d-flex justify-content-between align-items-center cart-flex">
+                    
+                    <div class="d-flex align-items-center">
+                        <img src="https://via.placeholder.com/90" class="cart-img me-3">
+                        <div>
+                            <h5>Gym Gloves</h5>
+                            <p class="text-muted mb-0">₹ 500</p>
+                        </div>
+                    </div>
+
+                    <div class="d-flex align-items-center mt-3 mt-lg-0">
+                        <input type="number" value="2" class="form-control qty-box me-2">
+                        <strong>₹ 1000</strong>
+                    </div>
+
+                    <button class="btn btn-danger btn-sm mt-3 mt-lg-0">Remove</button>
+
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Summary -->
+        <div class="col-lg-4">
+            <div class="summary-box">
+                <h4>Order Summary</h4>
+                <hr>
+
+                <p>Subtotal <span class="float-end">₹ 2200</span></p>
+                <p>Delivery <span class="float-end text-success">Free</span></p>
+
+                <hr>
+                <h5>Total <span class="float-end">₹ 2200</span></h5>
+
+                <button class="btn btn-checkout mt-3">
+                    Proceed to Checkout
+                </button>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

@@ -873,6 +873,40 @@ def u_recipesteps(diet_id):
     data=cursor.fetchall()  
     return render_template("user/u_recipesteps.html", data=data)
 
+# <==================ADD TO CART====================>
+@app.route("/add_cart/<int:product_id>")
+def add_cart(product_id):
+    cursor = conn.cursor()
+    if 'u_id' not in session:
+        return redirect(url_for('u_login'))
+    u_id= session['u_id']
+    check_query = "SELECT * FROM table_cart WHERE u_id=%s AND product_id=%s"
+    check_val = (u_id, product_id)
+    cursor.execute(check_query, check_val)
+    existing_cart_item = cursor.fetchone()
+    if existing_cart_item:
+        msg = "Product already in cart"
+        return redirect(url_for('u_shopping', msg=msg))
+    else:
+        query = "INSERT INTO table_cart (u_id, product_id,quantity) VALUES (%s,%s,1)"
+        val = (u_id, product_id)
+        cursor.execute(query,val)
+        conn.commit()
+        cursor.close()
+        return redirect(url_for('view_cart'))
+    
+   
+
+@app.route("/view_cart")
+def view_cart():
+    cursor = conn.cursor()
+    if 'u_id' not in session:
+        return redirect(url_for('u_login'))
+    u_id= session['u_id']
+    query = "SELECT c.cart_id, p.p_name, p.p_unitprice, c.quantity FROM table_cart c JOIN table_product p ON c.product_id = p.product_id WHERE c.u_id = %s"
+    cursor.execute(query, (u_id,))
+    cart_items = cursor.fetchall()
+    return render_template("user/view_cart.html", cart_items=cart_items)
 
 
 if __name__ == "__main__":
