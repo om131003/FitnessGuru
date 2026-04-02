@@ -888,7 +888,7 @@ def add_cart(product_id):
         msg = "Product already in cart"
         return redirect(url_for('u_shopping', msg=msg))
     else:
-        query = "INSERT INTO table_cart (u_id, product_id,quantity) VALUES (%s,%s,1)"
+        query = "INSERT INTO table_cart(u_id, product_id,quantity) VALUES (%s,%s,1)"
         val = (u_id, product_id)
         cursor.execute(query,val)
         conn.commit()
@@ -903,10 +903,49 @@ def view_cart():
     if 'u_id' not in session:
         return redirect(url_for('u_login'))
     u_id= session['u_id']
-    query = "SELECT c.cart_id, p.p_name, p.p_unitprice, c.quantity FROM table_cart c JOIN table_product p ON c.product_id = p.product_id WHERE c.u_id = %s"
+    # Select cart items with product images
+    query = "SELECT c.cart_id, p.p_name, p.p_unitprice, c.quantity, p.p_image FROM table_cart c JOIN table_product p ON c.product_id = p.product_id WHERE c.u_id = %s"
     cursor.execute(query, (u_id,))
     cart_items = cursor.fetchall()
-    return render_template("user/view_cart.html", cart_items=cart_items)
+    
+    # Calculate subtotal accurately
+    total_price = 0
+    for item in cart_items:
+        # Cast to float to handle potential Decimal types from the database
+        total_price += float(item[2]) * float(item[3])
+        
+    return render_template("user/view_cart.html", cart_items=cart_items, total_price=total_price)
+
+@app.route("/delete_cart_item/<int:cart_id>")
+def delete_cart_item(cart_id):
+    cursor = conn.cursor()
+    query = "DELETE FROM table_cart WHERE cart_id=%s"
+    cursor.execute(query, (cart_id,))
+    conn.commit()
+    return redirect(url_for('view_cart'))
+
+@app.route("/update_cart_quantity/<int:cart_id>/<string:action>")
+def update_cart_quantity(cart_id, action):
+    cursor = conn.cursor()
+    # Get current quantity
+    cursor.execute("SELECT quantity FROM table_cart WHERE cart_id = %s", (cart_id,))
+    res = cursor.fetchone()
+    if res:
+        current_qty = int(res[0])
+        if action == "increase":
+            new_qty = current_qty + 1
+        elif action == "decrease" and current_qty > 1:
+            new_qty = current_qty - 1
+        else:
+            new_qty = current_qty
+            
+        cursor.execute("UPDATE table_cart SET quantity = %s WHERE cart_id = %s", (new_qty, cart_id))
+        conn.commit()
+    return redirect(url_for('view_cart'))
+
+@app.route("/u_checkout")
+def u_checkout():
+    return "Checkout Page (In Development) - Thank you for your purchase!"
 
 
 if __name__ == "__main__":

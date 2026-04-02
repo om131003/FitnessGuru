@@ -2,156 +2,318 @@
 {% block content %}
 
 <!-- =============== HEADER-TITLE =============== -->
-	<section class="s-header-title" style="background-image: url(/static/user/assets/img/bg-1-min.png);">
+<section class="s-header-title" style="background-image: url(/static/user/assets/img/bg-1-min.png);">
 		<div class="container">
-			<h1 class="title">Your Cart</h1>
+			<h1 class="title">CART</h1>
 			<ul class="breadcrambs">
-				<li><a href="#">Home</a></li>
-				<li>Your Cart</li>
+				<li><a href="{{ url_for('u_dashboard') }}">Home</a></li>
+				<li>Cart</li>
 			</ul>
 		</div>
 	</section>
-	<!-- ============= HEADER-TITLE END ============= -->
+<!-- ============= HEADER-TITLE END ============= -->
+
 <style>
-body {
-    background: #202020;
-    color: #fff;
-}
-
-.cart-container {
-    margin-top: 50px;
-}
-
-.cart-card {
-    background: #272a31;
-    border-radius: 15px;
-    padding: 20px;
-    margin-bottom: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-
-.cart-img {
-    width: 90px;
-    border-radius: 10px;
-}
-
-.qty-box {
-    width: 70px;
-    text-align: center;
-    background: #0f172a;
-    color: #fff;
-    border: 1px solid #334155;
-}
-
-.summary-box {
-    background: #272a31;
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-}
-
-.btn-checkout {
-    width: 100%;
-    border-radius: 10px;
-    font-weight: bold;
-    background: linear-gradient(45deg, #f4313f);
-    border: none;
-}
-
-.btn-checkout:hover {
-    opacity: 0.9;
-}
-
-.btn-danger {
-    background: #f4313f;
-    border: none;
-}
-
-.text-muted {
-    color: #94a3b8 !important;
-}
-
-hr {
-    border-color: #334155;
-}
-
-@media (max-width: 768px) {
-    .cart-flex {
-        flex-direction: column;
-        align-items: flex-start;
+    :root {
+        --guru-red: #f4313f;
+        --guru-bg: #1a1a1a;
+        --guru-surface: #202020;
+        --guru-border: #2a2a2a;
+        --guru-text: #ffffff;
+        --guru-text-dim: #94abaf;
+        --guru-red-glow: rgba(244, 49, 63, 0.15);
     }
-}
+
+    body {
+        background: var(--guru-bg) !important;
+        color: var(--guru-text) !important;
+    }
+
+    .cart-wrapper {
+        padding: 80px 0;
+        min-height: 80vh;
+    }
+
+    .cart-card {
+        background: var(--guru-surface);
+        border: 1px solid var(--guru-border);
+        border-radius: 12px;
+        padding: 30px;
+        margin-bottom: 25px;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    }
+
+    .cart-card:hover {
+        border-color: var(--guru-red);
+        box-shadow: 0 10px 40px var(--guru-red-glow);
+        transform: translateY(-5px);
+    }
+
+    .cart-flex {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 20px;
+    }
+
+    .item-img {
+        width: 100px;
+        height: 100px;
+        flex-shrink: 0;
+        border-radius: 10px;
+        object-fit: cover;
+        border: 1px solid var(--guru-border);
+    }
+
+    .info-group h3 {
+        font-size: 1.3rem;
+        font-weight: 700;
+        margin-bottom: 5px;
+        color: #fff;
+    }
+
+    .unit-price {
+        color: var(--guru-red);
+        font-weight: 600;
+        font-size: 1rem;
+    }
+
+    .qty-control-group {
+        display: flex;
+        align-items: center;
+        background: #000;
+        border: 1px solid var(--guru-border);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .btn-qty {
+        background: transparent;
+        color: #fff;
+        border: none;
+        width: 35px;
+        height: 35px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s;
+        cursor: pointer;
+        font-size: 0.9rem;
+    }
+
+    .btn-qty:hover {
+        background: var(--guru-red);
+        color: #fff;
+    }
+
+    .qty-value {
+        width: 40px;
+        text-align: center;
+        font-weight: 700;
+        border-left: 1px solid var(--guru-border);
+        border-right: 1px solid var(--guru-border);
+        color: #fff;
+    }
+
+    .total-price {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: #fff;
+        min-width: 130px;
+        text-align: right;
+    }
+
+    .summary-box {
+        background: var(--guru-surface);
+        border: 1px solid var(--guru-border);
+        border-radius: 20px;
+        padding: 40px;
+        position: sticky;
+        top: 30px;
+        box-shadow: 0 30px 60px rgba(0,0,0,0.5);
+    }
+
+    .summary-title {
+        font-family: 'Righteous', sans-serif;
+        font-size: 1.8rem;
+        margin-bottom: 30px;
+        text-align: center;
+        border-bottom: 1px solid var(--guru-border);
+        padding-bottom: 20px;
+    }
+
+    .summary-row {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 18px;
+        font-size: 1.1rem;
+        color: var(--guru-text-dim);
+    }
+
+    .grand-total {
+        margin-top: 30px;
+        padding-top: 25px;
+        border-top: 2px dashed var(--guru-border);
+        display: flex;
+        justify-content: space-between;
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: #fff;
+    }
+
+    .btn-checkout {
+        display: block;
+        width: 100%;
+        padding: 18px;
+        background: var(--guru-red);
+        color: #fff !important;
+        text-align: center;
+        border-radius: 12px;
+        font-weight: 800;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-top: 35px;
+        transition: all 0.3s;
+        border: none;
+        box-shadow: 0 5px 15px rgba(244, 49, 63, 0.4);
+    }
+
+    .btn-checkout:hover {
+        background: #d62b37;
+        box-shadow: 0 8px 25px rgba(244, 49, 63, 0.6);
+        transform: translateY(-3px);
+    }
+
+    .btn-remove {
+        background: rgba(244, 49, 63, 0.1);
+        color: var(--guru-red);
+        border: 1px solid rgba(244, 49, 63, 0.2);
+        padding: 10px 15px;
+        border-radius: 8px;
+        transition: all 0.3s;
+        text-decoration: none;
+    }
+
+    .btn-remove:hover {
+        background: var(--guru-red);
+        color: #fff;
+        transform: scale(1.05);
+    }
+
+    .empty-cart-state {
+        text-align: center;
+        padding: 80px 40px;
+        background: var(--guru-surface);
+        border-radius: 20px;
+        border: 1px dashed var(--guru-border);
+    }
+
+    .empty-cart-state i {
+        font-size: 5rem;
+        color: var(--guru-red);
+        margin-bottom: 25px;
+        filter: drop-shadow(0 0 10px var(--guru-red-glow));
+    }
+
+    @media (max-width: 768px) {
+        .cart-flex {
+            flex-direction: column;
+            text-align: center;
+            gap: 15px;
+        }
+        .total-price {
+            text-align: center;
+        }
+    }
 </style>
 
-<div class="container cart-container">
-    
+<div class="cart-wrapper">
+    <div class="container">
+        
+        <div class="row">
+            <!-- Items Section -->
+            <div class="col-lg-8">
+                <h2 style="font-family: 'Righteous', sans-serif; margin-bottom: 40px; color: #fff;">Your Personal Inventory</h2>
 
-    <div class="row">
+                {% if cart_items %}
+                    {% for item in cart_items %}
+                    <div class="cart-card">
+                        <div class="cart-flex">
+                            
+                            <img src="/{{ item[4] }}" alt="{{ item[1] }}" class="item-img">
+                            
+                            <div class="info-group" style="flex: 1;">
+                                <h3>{{ item[1] }}</h3>
+                                <p class="unit-price">₹ {{ item[2] }}</p>
+                            </div>
 
-        <!-- Cart Items -->
-        <div class="col-lg-8">
+                            <div class="qty-control-group">
+                                <a href="{{ url_for('update_cart_quantity', cart_id=item[0], action='decrease') }}" class="btn-qty" title="Decrease">
+                                    <i class="fas fa-minus"></i>
+                                </a>
+                                <div class="qty-value">
+                                    {{ item[3] }}
+                                </div>
+                                <a href="{{ url_for('update_cart_quantity', cart_id=item[0], action='increase') }}" class="btn-qty" title="Increase">
+                                    <i class="fas fa-plus"></i>
+                                </a>
+                            </div>
 
-            <!-- Item 1 -->
-            <div class="cart-card">
-                <div class="d-flex justify-content-between align-items-center cart-flex">
-                    
-                    <div class="d-flex align-items-center">
-                        <img src="https://via.placeholder.com/90" class="cart-img me-3">
-                        <div>
-                            <h5>Protein Powder</h5>
-                            <p class="text-muted mb-0">₹ 1200</p>
+                            <div class="total-price">
+                                ₹ {{ item[2] * item[3] }}
+                            </div>
+
+                            <a href="{{ url_for('delete_cart_item', cart_id=item[0]) }}" class="btn-remove" onclick="return confirm('Are you sure to delete this item?') ">
+                                <i class="fas fa-trash-alt"></i>
+                            </a>
+
                         </div>
                     </div>
-
-                    <div class="d-flex align-items-center mt-3 mt-lg-0">
-                        <input type="number" value="1" class="form-control qty-box me-2">
-                        <strong>₹ 1200</strong>
+                    {% endfor %}
+                {% else %}
+                    <div class="empty-cart-state">
+                        <i class="fas fa-dumbbell"></i>
+                        <h2 style="color: #fff;">Wait! Your Cart is Empty</h2>
+                        <p style="color: var(--guru-text-dim); margin-bottom: 30px;">Time to power up. Your inventory is waiting for some equipment.</p>
+                        <a href="{{ url_for('u_shopping') }}" class="btn-checkout" style="max-width: 300px; margin: 0 auto;">Shop Now</a>
                     </div>
-
-                    <button class="btn btn-danger btn-sm mt-3 mt-lg-0">Remove</button>
-
-                </div>
+                {% endif %}
             </div>
 
-            <!-- Item 2 -->
-            <div class="cart-card">
-                <div class="d-flex justify-content-between align-items-center cart-flex">
+            <!-- Sidebar Section -->
+            <div class="col-lg-4">
+                <div class="summary-box">
+                    <h3 class="summary-title">Order Audit</h3>
                     
-                    <div class="d-flex align-items-center">
-                        <img src="https://via.placeholder.com/90" class="cart-img me-3">
-                        <div>
-                            <h5>Gym Gloves</h5>
-                            <p class="text-muted mb-0">₹ 500</p>
-                        </div>
+                    <div class="summary-row">
+                        <span>Items Total</span>
+                        <span>₹ {{ total_price if total_price else 0 }}</span>
                     </div>
 
-                    <div class="d-flex align-items-center mt-3 mt-lg-0">
-                        <input type="number" value="2" class="form-control qty-box me-2">
-                        <strong>₹ 1000</strong>
+                    <div class="summary-row">
+                        <span>Tax Breakdown (GST 18%)</span>
+                        <span>₹ {{ (total_price * 0.18)|round(2) if total_price else 0 }}</span>
                     </div>
 
-                    <button class="btn btn-danger btn-sm mt-3 mt-lg-0">Remove</button>
+                    <div class="summary-row">
+                        <span>Freight/Delivery</span>
+                        <span style="color: #4cd137;">FREE</span>
+                    </div>
 
+                    <div class="grand-total">
+                        <span>Total Payable</span>
+                        <span>₹ {{ (total_price * 1.18)|round(2) if total_price else 0 }}</span>
+                    </div>
+
+                    <a href="{{ url_for('u_checkout') }}" class="btn-checkout">
+                        Authorize Payment <i class="fas fa-bolt" style="margin-left: 10px;"></i>
+                    </a>
+                    
+                    <div style="text-align: center; margin-top: 25px; font-size: 0.9rem; color: var(--guru-text-dim);">
+                        <i class="fas fa-lock" style="color: #4cd137; margin-right: 5px;"></i> End-to-end encrypted secure checkout
+                    </div>
                 </div>
-            </div>
-
-        </div>
-
-        <!-- Summary -->
-        <div class="col-lg-4">
-            <div class="summary-box">
-                <h4>Order Summary</h4>
-                <hr>
-
-                <p>Subtotal <span class="float-end">₹ 2200</span></p>
-                <p>Delivery <span class="float-end text-success">Free</span></p>
-
-                <hr>
-                <h5>Total <span class="float-end">₹ 2200</span></h5>
-
-                <button class="btn btn-checkout mt-3">
-                    Proceed to Checkout
-                </button>
             </div>
         </div>
 

@@ -15,14 +15,16 @@
 	<link rel="stylesheet" href="/static/user/assets/css/bootstrap-grid.css">
 	<link rel="stylesheet" href="/static/user/assets/css/font-awesome.min.css">
 	<link rel="stylesheet" href="/static/user/assets/css/style.css">
-	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"/>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
 </head>
 
 <body id="home">
 	<!--================ PRELOADER ================-->
-	
+
 	<!--============== PRELOADER END ==============-->
-	
+
 	<!-- ================= HEADER ================= -->
 	<header class="header">
 		<a href="#" class="nav-btn">
@@ -34,20 +36,27 @@
 			<div class="container">
 				<div class="header-left">
 					<ul class="header-cont">
-						<li><i class="fa fa-phone" aria-hidden="true"></i><a href="tel:18004886040">1-800-488-6040</a></li>
-						<li><i class="fa fa-clock-o" aria-hidden="true"></i>Mon - Fri: 8:00AM - 7:00PM | Sat - Sun: Closed</li>
+						<li><i class="fa fa-phone" aria-hidden="true"></i><a href="tel:18004886040">1-800-488-6040</a>
+						</li>
+						<li><i class="fa fa-clock-o" aria-hidden="true"></i>Mon - Fri: 8:00AM - 7:00PM | Sat - Sun:
+							Closed</li>
 					</ul>
 				</div>
 				<div class="header-right">
 					<form class="search-form">
 						<input type="search" class="search-form__field" placeholder="Search" value="" name="s">
-						<button type="submit" class="search-form__submit"><i class="fa fa-search" aria-hidden="true"></i></button>
+						<button title="Search" type="submit" class="search-form__submit" aria-label="Search"><i class="fa fa-search"
+										aria-hidden="true"></i><span class="sr-only">Search</span></button>
 					</form>
 					<ul class="social-list">
-						<li><a target="_blank" href="https://www.facebook.com/rovadex"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-						<li><a target="_blank" href="https://twitter.com/RovadexStudio"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-						<li><a target="_blank" href="https://www.youtube.com/"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
-						<li><a target="_blank" href="https://www.instagram.com/rovadex"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://www.facebook.com/rovadex"><i class="fa fa-facebook"
+									aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://twitter.com/RovadexStudio"><i class="fa fa-twitter"
+									aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://www.youtube.com/"><i class="fa fa-youtube"
+									aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://www.instagram.com/rovadex"><i class="fa fa-instagram"
+									aria-hidden="true"></i></a></li>
 					</ul>
 				</div>
 			</div>
@@ -55,13 +64,14 @@
 		<div class="header-menu">
 			<div class="container">
 				<div class="header-logo">
-					<a href="{{ url_for('u_dashboard') }}" class="logo"><img src="/static/user/assets/img/logo.svg" alt="logo"></a>
+					<a href="{{ url_for('u_dashboard') }}" class="logo"><img src="/static/user/assets/img/logo.svg"
+							alt="logo"></a>
 				</div>
 				<nav class="nav-menu">
 					<ul class="nav-list">
 						<li class="dropdown">
 							<a href="{{ url_for('u_dashboard') }}">Home </a>
-							
+
 						</li>
 						<li><a href="{{ url_for('u_shopping')}}">Shopping</a></li>
 						<li><a href="{{ url_for('u_recieps')}}">Recipes</a></li>
@@ -78,10 +88,16 @@
 						<li><a href="/u_login">Login</a></li>
 						{% else: %}
 						<li><a href="/u_logout">logout</a></li>
-						<li><a href="#"style="color:#f4313f;" >Welcome {{session.u_name}}</a></li>
+						<li><a href="#" style="color:#f4313f;">Welcome {{session.u_name}}</a></li>
+						<li>
+							<a href="{{ url_for('view_cart') }}">
+								<i class="fa-solid fa-cart-shopping"></i>&nbsp; Cart
+							</a>
+						</li>
 
 						{% endif %}
-						
+
+
 					</ul>
 				</nav>
 			</div>
@@ -89,21 +105,26 @@
 	</header>
 	<!-- =============== HEADER END =============== -->
 
-{% block content %}
-{% endblock %}
+	{% block content %}
+	{% endblock %}
 
-<!-- ================== FOOTER ================== -->
+	<!-- ================== FOOTER ================== -->
 	<footer>
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-6 col-lg-3 footer-item-logo">
-					<a href="index-2.html" class="logo-footer"><img src="/static/user/assets/img/footer-logo2.svg" alt="logo"></a>
+					<a href="index-2.html" class="logo-footer"><img src="/static/user/assets/img/footer-logo2.svg"
+							alt="logo"></a>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p>
 					<ul class="social-list">
-						<li><a target="_blank" href="https://www.facebook.com/rovadex"><i class="fa fa-facebook" aria-hidden="true"></i></a></li>
-						<li><a target="_blank" href="https://twitter.com/RovadexStudio"><i class="fa fa-twitter" aria-hidden="true"></i></a></li>
-						<li><a target="_blank" href="https://www.youtube.com/"><i class="fa fa-youtube" aria-hidden="true"></i></a></li>
-						<li><a target="_blank" href="https://www.instagram.com/rovadex"><i class="fa fa-instagram" aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://www.facebook.com/rovadex"><i class="fa fa-facebook"
+									aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://twitter.com/RovadexStudio"><i class="fa fa-twitter"
+									aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://www.youtube.com/"><i class="fa fa-youtube"
+									aria-hidden="true"></i></a></li>
+						<li><a target="_blank" href="https://www.instagram.com/rovadex"><i class="fa fa-instagram"
+									aria-hidden="true"></i></a></li>
 					</ul>
 				</div>
 				<div class="col-sm-6 col-lg-3 footer-item footer-item-list">
@@ -118,23 +139,28 @@
 				<div class="col-sm-6 col-lg-3 footer-item">
 					<h3>Contact us</h3>
 					<ul class="footer-cont">
-						<li><i class="fa fa-phone" aria-hidden="true"></i><a href="tel:18004886040">1-800-488-6040</a></li>
-						<li><i class="fa fa-envelope" aria-hidden="true"></i><a href="mailto:crossFit@gmail.com">CrossFit@gmail.com</a></li>
-						<li><i class="fa fa-map-marker" aria-hidden="true"></i><a href="contacts.html">London,Street 225r.21</a></li>
+						<li><i class="fa fa-phone" aria-hidden="true"></i><a href="tel:18004886040">1-800-488-6040</a>
+						</li>
+						<li><i class="fa fa-envelope" aria-hidden="true"></i><a
+								href="mailto:crossFit@gmail.com">CrossFit@gmail.com</a></li>
+						<li><i class="fa fa-map-marker" aria-hidden="true"></i><a href="contacts.html">London,Street
+								225r.21</a></li>
 					</ul>
 				</div>
 				<div class="col-sm-6 col-lg-3 footer-item">
 					<h3>Blog</h3>
 					<ul class="footer-blog">
 						<li>
-							<a href="blog.html" class="img-cover"><img src="/static/user/assets/img/footer-icon-1.jpg" alt="img"></a>
+							<a href="blog.html" class="img-cover"><img src="/static/user/assets/img/footer-icon-1.jpg"
+									alt="img"></a>
 							<div class="footer-blog-info">
 								<div class="name"><a href="blog.html">Sed ut perspiciatis</a></div>
 								<p>Omnis iste natus error sit voluptatem…</p>
 							</div>
 						</li>
 						<li>
-							<a href="blog.html" class="img-cover"><img src="/static/user/assets/img/footer-icon-2.jpg" alt="img"></a>
+							<a href="blog.html" class="img-cover"><img src="/static/user/assets/img/footer-icon-2.jpg"
+									alt="img"></a>
 							<div class="footer-blog-info">
 								<div class="name"><a href="blog.html">Sed ut perspiciatis</a></div>
 								<p>Omnis iste natus error sit voluptatem…</p>
