@@ -2,66 +2,75 @@
 
 {% block content %}
 
-<!-- Main Content -->
-      <div class="main-content">
-        <section class="section">
-          <div class="section-body">
-            <div class="row">
-              <div class="col-12 col-md-6 col-lg-6">
-                
-                <div class="card">
-                  <form action="{{url_for('add_product')}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate="">
-                    <div class="card-header">
-                      <h4>Product inventory</h4>
-                    </div>
-                    <div class="card-body">
-                      <div class="form-group">
-                        <label>Product name</label>
-                        <input type="text" name="p_name" id="p_name" class="form-control" required="">
-                        <div class="invalid-feedback">
-                          What is your product name ?
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label>Quantity in stock</label>
-                        <input type="text" name="p_quantityinstock" id="p_quantityinstock" class="form-control" required="">
-                        <div class="invalid-feedback">
-                          what is the quantity of product.
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label>Unit price</label>
-                        <input type="text" name="p_unitprice" id="p_unitprice" class="form-control" required="">
-                        <div class="invalid-feedback">
-                          what is per unit price.
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label>Product image</label>
-                        <input type="file" name="p_image" id="p_image" class="form-control" required="">
-                        <div class="invalid-feedback">
-                          what is product image.
-                        </div>
-                      </div>
-                      <div class="form-group mb-0">
-                        <label>Product Description	</label>
-                        <textarea class="form-control"name="p_description" id="p_description"  required=""></textarea>
-                        <div class="invalid-feedback">
-                          What do you wanna say?
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-footer text-right">
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+<div class="main-content">
+  <section class="section">
+    <div style="max-width:1400px;margin:0 auto;padding:0 24px 40px;">
 
-        {% endblock %}
+      <!-- ── Page Header ── -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;">
+        <div>
+          <h1 style="font-family:'Poppins',sans-serif;font-size:26px;font-weight:800;color:#1a2035;margin:0;">
+            Manage Inventory
+          </h1>
+          <p style="margin:4px 0 0;font-size:14px;color:#64748b;">
+            Add new supplements, gear, and merchandise to the shop.
+          </p>
+        </div>
+        <a href="{{url_for('view_product')}}" class="btn btn-secondary">
+          <i class="fas fa-list me-1"></i> View Inventory
+        </a>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-8 col-lg-7">
+          <div class="card">
+            <form action="{{url_for('add_product')}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate="">
+              <div class="card-header">
+                <h4>Product Details</h4>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Product Name</label>
+                  <input type="text" name="p_name" class="form-control" placeholder="e.g. Whey Protein Isolate" required="">
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Quantity in Stock</label>
+                      <input type="number" name="p_quantityinstock" class="form-control" placeholder="50" required="">
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Unit Price (₹)</label>
+                      <input type="number" name="p_unitprice" class="form-control" placeholder="2499" required="">
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Product image</label>
+                  <input type="file" name="p_image" class="form-control" required="">
+                </div>
+
+                <div class="form-group">
+                  <label>Product Description</label>
+                  <textarea class="form-control" name="p_description" style="height:120px;" required="" placeholder="Highlight key features and benefits..."></textarea>
+                </div>
+              </div>
+              <div class="card-footer" style="background:#fcfcfd;border-top:1px solid #f1f5f9;display:flex;justify-content:flex-end;">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-plus-circle me-1"></i> Add to Catalog
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+{% endblock %}

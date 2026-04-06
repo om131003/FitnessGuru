@@ -2,89 +2,107 @@
 
 {% block content %}
 
-<!-- Main Content -->
 <div class="main-content">
   <section class="section">
-    <div class="section-body">
-      <div class="row">
-        <div class="col-12 col-md-6 col-lg-6">
+    <div style="max-width:1400px;margin:0 auto;padding:0 24px 40px;">
 
+      <!-- ── Page Header ── -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;">
+        <div>
+          <h1 style="font-family:'Poppins',sans-serif;font-size:26px;font-weight:800;color:#1a2035;margin:0;">
+            Add New Exercise
+          </h1>
+          <p style="margin:4px 0 0;font-size:14px;color:#64748b;">
+            Populate your library with specific workouts and details.
+          </p>
+        </div>
+        <a href="{{url_for('view_exercise')}}" class="btn btn-secondary">
+          <i class="fas fa-list me-1"></i> View All Exercises
+        </a>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-10 col-lg-8">
           <div class="card">
-            <form class="needs-validation" action="{{url_for('manageexe')}}" method="POST" enctype="multipart/form-data"
-              novalidate="">
+            <form class="needs-validation" action="{{url_for('manageexe')}}" method="POST" enctype="multipart/form-data" novalidate="">
               <div class="card-header">
-                <h4>Add Exercise</h4>
+                <h4>Exercise Details</h4>
               </div>
               <div class="card-body">
-                <div class="form-group">
-                  <label>Exercise Category</label>
-                  <select class="form-control" name="cat_id" required="">
-                    <option value="">Select Category</option>
-                    {% for cat in view_execat %}
-                    <option value="{{cat[0]}}">{{cat[1]}}</option>
-                    {% endfor %}
-                  </select>
-                  <div class="invalid-feedback">
-                    Exercise Name ?
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>Exercise Name</label>
-                  <input type="text" class="form-control" name="exercise_name" required="">
-                  <div class="invalid-feedback">
-                    Exercise Name ?
-                  </div>
-                </div>
-
-                <div class="form-group">
-                  <label>Exercise video </label>
-                  <input type="file" class="form-control" name="video_url" required="">
-                  <div class="invalid-feedback">
-                    Oh no! video is invalid.
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>Equipment</label>
-                  <input type="text" class="form-control" name="exe_equipment" required="">
-                  <div class="invalid-feedback">
-                    which equipment is going to use in this Exercise ?
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>sets</label>
-                  <input type="text" class="form-control" name="exe_sets" required="">
-                  <div class="invalid-feedback">
-                    how many sets ?
-                  </div>
-                </div>
-                <div class="form-group">
-                  <label>reps</label>
-                  <input type="text" class="form-control" name="exe_reps" required="">
-                  <div class="invalid-feedback">
-                    how many reps ?
-                  </div>
-                </div>
-                <div class="form-group mb-0">
-                        <label>Exercise Description	</label>
-                        <textarea class="form-control" name="exe_description" required=""></textarea>
-                        <div class="invalid-feedback">
-                          What do you wanna say?
-                        </div>
-                      </div>
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Target Category</label>
+                      <select class="form-control" name="cat_id" required="">
+                        <option value="">Select Category</option>
+                        {% for cat in view_execat %}
+                        <option value="{{cat[0]}}">{{cat[1]}}</option>
+                        {% endfor %}
+                      </select>
+                      <div class="invalid-feedback">Please select a category.</div>
                     </div>
-                <div class="card-footer text-right">
-                  <button type="submit" class="btn btn-primary">Submit</button>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Exercise Name</label>
+                      <input type="text" class="form-control" name="exercise_name" placeholder="e.g. Bench Press" required="">
+                      <div class="invalid-feedback">Please enter exercise name.</div>
+                    </div>
+                  </div>
                 </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Instructional Video</label>
+                      <input type="file" class="form-control" name="video_url" required="">
+                      <div class="invalid-feedback">Please upload a video.</div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Equipment Needed</label>
+                      <input type="text" class="form-control" name="exe_equipment" placeholder="e.g. Barbell, Bench" required="">
+                      <div class="invalid-feedback">Specify equipment used.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Default Sets</label>
+                      <input type="number" class="form-control" name="exe_sets" placeholder="3" required="">
+                      <div class="invalid-feedback">Specify number of sets.</div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Default Reps</label>
+                      <input type="number" class="form-control" name="exe_reps" placeholder="12" required="">
+                      <div class="invalid-feedback">Specify number of reps.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group mb-0">
+                  <label>Training Description</label>
+                  <textarea class="form-control" name="exe_description" style="height:100px;" required="" placeholder="Briefly explain the correct form or technique..."></textarea>
+                  <div class="invalid-feedback">Please provide a description.</div>
+                </div>
+              </div>
+              <div class="card-footer" style="background:#fcfcfd;border-top:1px solid #f1f5f9;display:flex;justify-content:flex-end;">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-save me-1"></i> Save Exercise
+                </button>
+              </div>
             </form>
           </div>
         </div>
-
-        </form>
       </div>
+
     </div>
+  </section>
 </div>
-</div>
-</section>
 
 {% endblock %}

@@ -4,92 +4,172 @@
 
 {% if msg %}
 <script>
-  alert('{{msg}}')
-  </script>
-
+  window.addEventListener('DOMContentLoaded', () => {
+    const el = document.getElementById('dash-flash');
+    if (el) { el.style.display = 'flex'; setTimeout(() => el.remove(), 4000); }
+  });
+</script>
 {% endif %}
-<!-- Main Content -->
- 
-      <div class="main-content">
-        <section class="section">
-          <div class="row ">
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-              <div class="card">
-                <div class="card-statistic-4">
-                  <div class="card-icon-bg">
-                    <i data-feather="activity"></i>
-                  </div>
-                  <div class="card-content">
-                    <h5 class="font-15">Exercise Categories</h5>
-                    <h2 class="mb-3">{{ total_exercise_categories }}</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-              <div class="card">
-                <div class="card-statistic-4">
-                  <div class="card-icon-bg">
-                    <i data-feather="layers"></i>
-                  </div>
-                  <div class="card-content">
-                    <h5 class="font-15">Total Exercises</h5>
-                    <h2 class="mb-3">{{ total_exercises }}</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-              <div class="card">
-                <div class="card-statistic-4">
-                  <div class="card-icon-bg">
-                    <i data-feather="coffee"></i>
-                  </div>
-                  <div class="card-content">
-                    <h5 class="font-15">Diet Categories</h5>
-                    <h2 class="mb-3">{{ total_diet_categories }}</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12">
-              <div class="card">
-                <div class="card-statistic-4">
-                  <div class="card-icon-bg">
-                    <i data-feather="calendar"></i>
-                  </div>
-                  <div class="card-content">
-                    <h5 class="font-15">Diet Plans</h5>
-                    <h2 class="mb-3">{{ total_diet_plans }}</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <div class="col-xl-3 col-lg-6 col-md-6 col-sm-12 mt-4">
-              <div class="card">
-                <div class="card-statistic-4">
-                  <div class="card-icon-bg">
-                    <i data-feather="shopping-cart"></i>
-                  </div>
-                  <div class="card-content">
-                    <h5 class="font-15">Total Products</h5>
-                    <h2 class="mb-3">{{ total_products }}</h2>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-         
 
+<div class="main-content">
+  <section class="section">
+    <div style="max-width:1400px;margin:0 auto;padding:0 24px 40px;">
 
-
-          <div class="row">
-            <div class="col-md-6 col-lg-12 col-xl-6">
-
-            </div>
-            
-          </div>
-        </section>
+      <!-- ── Page Header ── -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;">
+        <div>
+          <h1 style="font-family:'Poppins',sans-serif;font-size:26px;font-weight:800;color:#1a2035;margin:0;">
+            Dashboard
+          </h1>
+          <p style="margin:4px 0 0;font-size:14px;color:#64748b;">
+            Welcome back, <strong style="color:#f9b17a;">Admin</strong> — here's what's happening today.
+          </p>
+        </div>
+        <div style="font-size:13px;color:#94a3b8;display:flex;align-items:center;gap:6px;">
+          <i class="fas fa-calendar-alt" style="color:#f9b17a;"></i>
+          <span id="live-date"></span>
+        </div>
       </div>
+
+      {% if msg %}
+      <div id="dash-flash" style="display:flex;align-items:center;gap:10px;background:#fff5e6;border:1px solid rgba(249,177,122,0.4);border-left:4px solid #f9b17a;border-radius:12px;padding:14px 20px;margin-bottom:24px;font-size:14px;color:#7b4f1e;">
+        <i class="fas fa-info-circle" style="color:#f9b17a;font-size:16px;"></i>
+        {{ msg }}
+      </div>
+      {% endif %}
+
+      <!-- ── Stat Cards ── -->
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:20px;margin-bottom:32px;">
+
+        <!-- Card 1: Exercise Categories -->
+        <div class="stat-card stat-card-orange" style="border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(249,177,122,0.30);transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
+          <div style="padding:28px 26px;">
+            <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,0.22);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;">
+              ⚡
+            </div>
+            <p style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.80);margin:0 0 8px;">Exercise Categories</p>
+            <p style="font-family:'Poppins',sans-serif;font-size:42px;font-weight:800;color:#fff;margin:0;line-height:1;">{{ total_exercise_categories }}</p>
+          </div>
+          <div style="padding:12px 26px;background:rgba(0,0,0,0.08);font-size:12px;color:rgba(255,255,255,0.75);display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-arrow-right"></i>
+            <a href="{{ url_for('view_execat') }}" style="color:inherit;text-decoration:none;">View all categories</a>
+          </div>
+        </div>
+
+        <!-- Card 2: Exercises -->
+        <div class="stat-card stat-card-navy" style="border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(45,50,80,0.25);transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
+          <div style="padding:28px 26px;">
+            <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;">
+              🏋️
+            </div>
+            <p style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.80);margin:0 0 8px;">Total Exercises</p>
+            <p style="font-family:'Poppins',sans-serif;font-size:42px;font-weight:800;color:#fff;margin:0;line-height:1;">{{ total_exercises }}</p>
+          </div>
+          <div style="padding:12px 26px;background:rgba(0,0,0,0.15);font-size:12px;color:rgba(255,255,255,0.65);display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-arrow-right"></i>
+            <a href="{{ url_for('view_exercise') }}" style="color:inherit;text-decoration:none;">View all exercises</a>
+          </div>
+        </div>
+
+        <!-- Card 3: Diet Categories -->
+        <div class="stat-card stat-card-purple" style="border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(124,109,206,0.30);transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
+          <div style="padding:28px 26px;">
+            <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;">
+              🥗
+            </div>
+            <p style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.80);margin:0 0 8px;">Diet Categories</p>
+            <p style="font-family:'Poppins',sans-serif;font-size:42px;font-weight:800;color:#fff;margin:0;line-height:1;">{{ total_diet_categories }}</p>
+          </div>
+          <div style="padding:12px 26px;background:rgba(0,0,0,0.12);font-size:12px;color:rgba(255,255,255,0.70);display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-arrow-right"></i>
+            <a href="{{ url_for('view_dietcat') }}" style="color:inherit;text-decoration:none;">View all categories</a>
+          </div>
+        </div>
+
+        <!-- Card 4: Diet Plans -->
+        <div class="stat-card stat-card-teal" style="border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(56,178,172,0.28);transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
+          <div style="padding:28px 26px;">
+            <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;">
+              📋
+            </div>
+            <p style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.80);margin:0 0 8px;">Diet Plans</p>
+            <p style="font-family:'Poppins',sans-serif;font-size:42px;font-weight:800;color:#fff;margin:0;line-height:1;">{{ total_diet_plans }}</p>
+          </div>
+          <div style="padding:12px 26px;background:rgba(0,0,0,0.12);font-size:12px;color:rgba(255,255,255,0.70);display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-arrow-right"></i>
+            <a href="{{ url_for('view_dietplans') }}" style="color:inherit;text-decoration:none;">View all plans</a>
+          </div>
+        </div>
+
+        <!-- Card 5: Products -->
+        <div class="stat-card stat-card-pink" style="border-radius:20px;overflow:hidden;box-shadow:0 10px 30px rgba(237,100,166,0.28);transition:transform 0.3s;" onmouseover="this.style.transform='translateY(-6px)'" onmouseout="this.style.transform='translateY(0)'">
+          <div style="padding:28px 26px;">
+            <div style="width:52px;height:52px;border-radius:14px;background:rgba(255,255,255,0.18);display:flex;align-items:center;justify-content:center;font-size:22px;margin-bottom:18px;">
+              🛒
+            </div>
+            <p style="font-size:11px;font-weight:700;letter-spacing:1.2px;text-transform:uppercase;color:rgba(255,255,255,0.80);margin:0 0 8px;">Products</p>
+            <p style="font-family:'Poppins',sans-serif;font-size:42px;font-weight:800;color:#fff;margin:0;line-height:1;">{{ total_products }}</p>
+          </div>
+          <div style="padding:12px 26px;background:rgba(0,0,0,0.12);font-size:12px;color:rgba(255,255,255,0.70);display:flex;align-items:center;gap:6px;">
+            <i class="fas fa-arrow-right"></i>
+            <a href="{{ url_for('view_product') }}" style="color:inherit;text-decoration:none;">View inventory</a>
+          </div>
+        </div>
+
+      </div><!-- /stat cards grid -->
+
+      <!-- ── Quick Actions ── -->
+      <div style="background:#fff;border-radius:20px;border:1px solid #e8edf5;box-shadow:0 4px 16px rgba(45,50,80,0.07);padding:28px 30px;">
+        <h2 style="font-family:'Poppins',sans-serif;font-size:17px;font-weight:700;color:#1a2035;margin:0 0 20px;display:flex;align-items:center;gap:10px;">
+          <span style="background:linear-gradient(135deg,#f9b17a,#f0924a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">⚡</span>
+          Quick Actions
+        </h2>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:14px;">
+
+          <a href="{{ url_for('execat') }}" style="text-decoration:none;background:#f4f6fb;border:1.5px solid #e8edf5;border-radius:14px;padding:18px 16px;text-align:center;transition:all 0.3s;display:block;" onmouseover="this.style.borderColor='#f9b17a';this.style.background='#fff5ec';" onmouseout="this.style.borderColor='#e8edf5';this.style.background='#f4f6fb';">
+            <div style="font-size:26px;margin-bottom:8px;">⚡</div>
+            <div style="font-size:13px;font-weight:600;color:#1a2035;">Add Exercise Cat.</div>
+          </a>
+
+          <a href="{{ url_for('exercise') }}" style="text-decoration:none;background:#f4f6fb;border:1.5px solid #e8edf5;border-radius:14px;padding:18px 16px;text-align:center;transition:all 0.3s;display:block;" onmouseover="this.style.borderColor='#424769';this.style.background='#f0f1f8';" onmouseout="this.style.borderColor='#e8edf5';this.style.background='#f4f6fb';">
+            <div style="font-size:26px;margin-bottom:8px;">🏋️</div>
+            <div style="font-size:13px;font-weight:600;color:#1a2035;">Add Exercise</div>
+          </a>
+
+          <a href="{{ url_for('adddietcat') }}" style="text-decoration:none;background:#f4f6fb;border:1.5px solid #e8edf5;border-radius:14px;padding:18px 16px;text-align:center;transition:all 0.3s;display:block;" onmouseover="this.style.borderColor='#7c6dce';this.style.background='#f4f2ff';" onmouseout="this.style.borderColor='#e8edf5';this.style.background='#f4f6fb';">
+            <div style="font-size:26px;margin-bottom:8px;">🥗</div>
+            <div style="font-size:13px;font-weight:600;color:#1a2035;">Add Diet Cat.</div>
+          </a>
+
+          <a href="{{ url_for('dietplans') }}" style="text-decoration:none;background:#f4f6fb;border:1.5px solid #e8edf5;border-radius:14px;padding:18px 16px;text-align:center;transition:all 0.3s;display:block;" onmouseover="this.style.borderColor='#38b2ac';this.style.background='#f0fffe';" onmouseout="this.style.borderColor='#e8edf5';this.style.background='#f4f6fb';">
+            <div style="font-size:26px;margin-bottom:8px;">📋</div>
+            <div style="font-size:13px;font-weight:600;color:#1a2035;">Add Diet Plan</div>
+          </a>
+
+          <a href="{{ url_for('productinventory') }}" style="text-decoration:none;background:#f4f6fb;border:1.5px solid #e8edf5;border-radius:14px;padding:18px 16px;text-align:center;transition:all 0.3s;display:block;" onmouseover="this.style.borderColor='#ed64a6';this.style.background='#fff0f8';" onmouseout="this.style.borderColor='#e8edf5';this.style.background='#f4f6fb';">
+            <div style="font-size:26px;margin-bottom:8px;">🛒</div>
+            <div style="font-size:13px;font-weight:600;color:#1a2035;">Add Product</div>
+          </a>
+
+          <a href="{{ url_for('membershipplan') }}" style="text-decoration:none;background:#f4f6fb;border:1.5px solid #e8edf5;border-radius:14px;padding:18px 16px;text-align:center;transition:all 0.3s;display:block;" onmouseover="this.style.borderColor='#f9b17a';this.style.background='#fff5ec';" onmouseout="this.style.borderColor='#e8edf5';this.style.background='#f4f6fb';">
+            <div style="font-size:26px;margin-bottom:8px;">🏆</div>
+            <div style="font-size:13px;font-weight:600;color:#1a2035;">Add Membership</div>
+          </a>
+
+        </div>
+      </div><!-- /quick actions -->
+
+    </div>
+  </section>
+</div>
+
+<script>
+  // Live date
+  const dateEl = document.getElementById('live-date');
+  if (dateEl) {
+    const now = new Date();
+    dateEl.textContent = now.toLocaleDateString('en-IN', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  }
+</script>
 
 {% endblock %}

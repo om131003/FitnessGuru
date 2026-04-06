@@ -1,298 +1,260 @@
 <!DOCTYPE html>
 <html lang="en">
 
-
-<!-- index.html  21 Nov 2019 03:44:50 GMT -->
-
 <head>
   <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Dashboard </title>
-  <!-- General CSS Files -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
+  <title>Admin Dashboard — Fitness Guru</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/static/admin/assets/img/favicon.ico">
+
+  <!-- Google Fonts -->
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <!-- Font Awesome 6 -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+  <!-- Feather Icons -->
+  <script src="https://unpkg.com/feather-icons/dist/feather.min.js"></script>
+
+  <!-- Original template CSS (base structure/layout engine) -->
   <link rel="stylesheet" href="/static/admin/assets/css/app.min.css">
   <link rel="stylesheet" href="/static/admin/assets/css/style.css">
   <link rel="stylesheet" href="/static/admin/assets/css/components.css">
-  <link rel="stylesheet" href="/static/admin/assets/css/admin_theme.css">
   <link rel="stylesheet" href="/static/admin/assets/css/custom.css">
-  <link rel='shortcut icon' type='image/x-icon' href='/static/admin/assets/img/favicon.ico' />
+
+  <!-- Our custom theme (overrides — must be LAST) -->
+  <link rel="stylesheet" href="/static/admin/assets/css/admin_theme.css">
 </head>
 
-<body>
+<body class="dark dark-sidebar theme-black">
+
+  <!-- Top-bar loading stripe -->
   <div class="loader"></div>
+
   <div id="app">
     <div class="main-wrapper main-wrapper-1">
+
+      <!-- ══════════════════════════════
+           NAVBAR
+      ══════════════════════════════ -->
       <div class="navbar-bg"></div>
       <nav class="navbar navbar-expand-lg main-navbar sticky">
+
+        <!-- Left: Toggle + brand on mobile -->
         <div class="form-inline mr-auto">
           <ul class="navbar-nav mr-3">
-            <li><a href="#" data-toggle="sidebar" class="nav-link nav-link-lg
-									collapse-btn"> <i data-feather="align-justify"></i></a></li>
-            <li><a href="#" class="nav-link nav-link-lg fullscreen-btn">
-                <i data-feather="maximize"></i>
-              </a></li>
+            <!-- Sidebar toggle -->
             <li>
-              <form class="form-inline mr-auto">
-                <div class="search-element">
-                  <input class="form-control" type="search" placeholder="Search" aria-label="Search" data-width="200">
-                  <button class="btn" type="submit">
-                    <i class="fas fa-search"></i>
-                  </button>
-                </div>
-              </form>
+              <a href="#" data-toggle="sidebar" class="nav-link nav-link-lg collapse-btn" title="Toggle Sidebar">
+                <i data-feather="menu"></i>
+              </a>
+            </li>
+            <!-- Fullscreen toggle -->
+            <li>
+              <a href="#" class="nav-link nav-link-lg fullscreen-btn" title="Fullscreen">
+                <i data-feather="maximize"></i>
+              </a>
             </li>
           </ul>
         </div>
+
+        <!-- Right: User dropdown -->
         <ul class="navbar-nav navbar-right">
-          <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
-              class="nav-link nav-link-lg message-toggle"><i data-feather="mail"></i>
-              <span class="badge headerBadge1">
-                6 </span> </a>
-            <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
-              <div class="dropdown-header">
-                Messages
-                <div class="float-right">
-                  <a href="#">Mark All As Read</a>
+
+          <!-- User menu -->
+          <li class="dropdown">
+            <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
+              <div style="display:flex;align-items:center;gap:10px;">
+                <div
+                  style="width:38px;height:38px;border-radius:50%;background:linear-gradient(135deg,#f9b17a,#f0924a);display:flex;align-items:center;justify-content:center;color:#2d3250;font-weight:800;font-size:16px;border:2px solid rgba(249,177,122,0.4);">
+                  A
                 </div>
+                <span class="d-none d-lg-inline-block"
+                  style="font-weight:600;font-size:14px;color:#1a2035;">Admin</span>
+                <i class="fas fa-chevron-down" style="font-size:11px;color:#64748b;"></i>
               </div>
-              <div class="dropdown-list-content dropdown-list-message">
-                <a href="#" class="dropdown-item"> <span class="dropdown-item-avatar
-											text-white"> <img alt="image" src="assets/img/users/user-1.png" class="rounded-circle">
-                  </span> <span class="dropdown-item-desc"> <span class="message-user">John
-                      Deo</span>
-                    <span class="time messege-text">Please check your mail !!</span>
-                    <span class="time">2 Min Ago</span>
-                  </span>
-                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-avatar text-white">
-                    <img alt="image" src="assets/img/users/user-2.png" class="rounded-circle">
-                  </span> <span class="dropdown-item-desc"> <span class="message-user">Sarah
-                      Smith</span> <span class="time messege-text">Request for leave
-                      application</span>
-                    <span class="time">5 Min Ago</span>
-                  </span>
-                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-avatar text-white">
-                    <img alt="image" src="assets/img/users/user-5.png" class="rounded-circle">
-                  </span> <span class="dropdown-item-desc"> <span class="message-user">Jacob
-                      Ryan</span> <span class="time messege-text">Your payment invoice is
-                      generated.</span> <span class="time">12 Min Ago</span>
-                  </span>
-                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-avatar text-white">
-                    <img alt="image" src="assets/img/users/user-4.png" class="rounded-circle">
-                  </span> <span class="dropdown-item-desc"> <span class="message-user">Lina
-                      Smith</span> <span class="time messege-text">hii John, I have upload
-                      doc
-                      related to task.</span> <span class="time">30
-                      Min Ago</span>
-                  </span>
-                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-avatar text-white">
-                    <img alt="image" src="assets/img/users/user-3.png" class="rounded-circle">
-                  </span> <span class="dropdown-item-desc"> <span class="message-user">Jalpa
-                      Joshi</span> <span class="time messege-text">Please do as specify.
-                      Let me
-                      know if you have any query.</span> <span class="time">1
-                      Days Ago</span>
-                  </span>
-                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-avatar text-white">
-                    <img alt="image" src="assets/img/users/user-2.png" class="rounded-circle">
-                  </span> <span class="dropdown-item-desc"> <span class="message-user">Sarah
-                      Smith</span> <span class="time messege-text">Client Requirements</span>
-                    <span class="time">2 Days Ago</span>
-                  </span>
-                </a>
-              </div>
-              <div class="dropdown-footer text-center">
-                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-              </div>
-            </div>
-          </li>
-          <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown"
-              class="nav-link notification-toggle nav-link-lg"><i data-feather="bell" class="bell"></i>
             </a>
-            <div class="dropdown-menu dropdown-list dropdown-menu-right pullDown">
-              <div class="dropdown-header">
-                Notifications
-                <div class="float-right">
-                  <a href="#">Mark All As Read</a>
-                </div>
-              </div>
-              <div class="dropdown-list-content dropdown-list-icons">
-                <a href="#" class="dropdown-item dropdown-item-unread"> <span
-                    class="dropdown-item-icon bg-primary text-white"> <i class="fas
-												fa-code"></i>
-                  </span> <span class="dropdown-item-desc"> Template update is
-                    available now! <span class="time">2 Min
-                      Ago</span>
-                  </span>
-                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-info text-white"> <i class="far
-												fa-user"></i>
-                  </span> <span class="dropdown-item-desc"> <b>You</b> and <b>Dedik
-                      Sugiharto</b> are now friends <span class="time">10 Hours
-                      Ago</span>
-                  </span>
-                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-success text-white"> <i
-                      class="fas
-												fa-check"></i>
-                  </span> <span class="dropdown-item-desc"> <b>Kusnaedi</b> has
-                    moved task <b>Fix bug header</b> to <b>Done</b> <span class="time">12
-                      Hours
-                      Ago</span>
-                  </span>
-                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-danger text-white"> <i
-                      class="fas fa-exclamation-triangle"></i>
-                  </span> <span class="dropdown-item-desc"> Low disk space. Let's
-                    clean it! <span class="time">17 Hours Ago</span>
-                  </span>
-                </a> <a href="#" class="dropdown-item"> <span class="dropdown-item-icon bg-info text-white"> <i class="fas
-												fa-bell"></i>
-                  </span> <span class="dropdown-item-desc"> Welcome to Otika
-                    template! <span class="time">Yesterday</span>
-                  </span>
-                </a>
-              </div>
-              <div class="dropdown-footer text-center">
-                <a href="#">View All <i class="fas fa-chevron-right"></i></a>
-              </div>
-            </div>
-          </li>
-          <li class="dropdown"><a href="#" data-toggle="dropdown"
-              class="nav-link dropdown-toggle nav-link-lg nav-link-user"> <img alt="image" src="assets/img/user.png"
-                class="user-img-radious-style"> <span class="d-sm-none d-lg-inline-block"></span></a>
             <div class="dropdown-menu dropdown-menu-right pullDown">
-              <div class="dropdown-title">Hello Sarah Smith</div>
-              <a href="profile.html" class="dropdown-item has-icon"> <i class="far
-										fa-user"></i> Profile
-              </a> <a href="timeline.html" class="dropdown-item has-icon"> <i class="fas fa-bolt"></i>
-                Activities
-              </a> <a href="#" class="dropdown-item has-icon"> <i class="fas fa-cog"></i>
-                Settings
+              <div class="dropdown-title">Signed in as Admin</div>
+              <a href="#" class="dropdown-item has-icon">
+                <i class="fas fa-user-circle"></i> My Profile
+              </a>
+              <a href="#" class="dropdown-item has-icon">
+                <i class="fas fa-cog"></i> Settings
               </a>
               <div class="dropdown-divider"></div>
-              <a href="{{ url_for('logout') }}" class="dropdown-item has-icon text-danger"> <i
-                  class="fas fa-sign-out-alt"></i>
-                Logout
+              <a href="{{ url_for('logout') }}" class="dropdown-item has-icon text-danger">
+                <i class="fas fa-sign-out-alt"></i> Logout
               </a>
             </div>
           </li>
+
         </ul>
       </nav>
+
+      <!-- ══════════════════════════════
+           SIDEBAR
+      ══════════════════════════════ -->
       <div class="main-sidebar sidebar-style-2">
         <aside id="sidebar-wrapper">
+
+          <!-- Brand -->
           <div class="sidebar-brand">
             <a href="{{ url_for('dashboard') }}">
-              <img src="{{ url_for('static', filename='Images/Fitness Guru logo.png') }}" alt="logo">
+              <img src="{{ url_for('static', filename='Images/Fitness Guru logo.png') }}" id="lo"
+                alt="Fitness Guru Logo">
               <span class="logo-name">FITNESS GURU</span>
             </a>
           </div>
-          <!-- <div class="sidebar-brand sidebar-brand-sm">
-            <a href="{{ url_for('dashboard') }}">
-              <img src="{{ url_for('static', filename='Images/Fitness Guru logo.png') }}" alt="logo">
-            </a>
-          </div> -->
+
+          <!-- Menu -->
           <ul class="sidebar-menu">
             <li class="menu-header">Main</li>
-
-            <li class="dropdown active">
+            <!-- Dashboard -->
+            <li class="dropdown">
               <a class="nav-link" href="{{ url_for('dashboard') }}">
-                <i data-feather="monitor"></i>
+                <i data-feather="grid"></i>
                 <span>Dashboard</span>
               </a>
             </li>
 
+            <li class="menu-header">Fitness Content</li>
 
+            <!-- Exercise Category -->
             <li class="dropdown">
-              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Manage exeirce
-                  category</span></a>
+              <a href="#" class="menu-toggle nav-link has-dropdown">
+                <i data-feather="zap"></i>
+                <span>Exercise Categories</span>
+              </a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{url_for('execat')}}">Add category</a></li>
-                <li><a class="nav-link" href="{{url_for('view_execat')}}">View category</a></li>
+                <li><a class="nav-link" href="{{ url_for('execat') }}"><i class="fas fa-plus-circle me-2"></i> Add
+                    Category</a></li>
+                <li><a class="nav-link" href="{{ url_for('view_execat') }}"><i class="fas fa-list me-2"></i> View
+                    Categories</a></li>
               </ul>
             </li>
 
+            <!-- Exercise -->
             <li class="dropdown">
-              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Manage
-                  exercise </span></a>
+              <a href="#" class="menu-toggle nav-link has-dropdown">
+                <i data-feather="activity"></i>
+                <span>Exercises</span>
+              </a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{url_for('exercise')}}">Add exercise</a></li>
-                <li><a class="nav-link" href="{{url_for('view_exercise')}}">View exercise</a></li>
+                <li><a class="nav-link" href="{{ url_for('exercise') }}"><i class="fas fa-plus-circle me-2"></i> Add
+                    Exercise</a></li>
+                <li><a class="nav-link" href="{{ url_for('view_exercise') }}"><i class="fas fa-list me-2"></i> View
+                    Exercises</a></li>
               </ul>
             </li>
 
+            <li class="menu-header">Diet & Nutrition</li>
+
+            <!-- Diet Category -->
             <li class="dropdown">
-              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Manage diet
-                  category </span></a>
+              <a href="#" class="menu-toggle nav-link has-dropdown">
+                <i data-feather="tag"></i>
+                <span>Diet Categories</span>
+              </a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{url_for('adddietcat')}}">Add diet category </a></li>
-                <li><a class="nav-link" href="{{url_for('view_dietcat')}}">View diet category</a></li>
+                <li><a class="nav-link" href="{{ url_for('adddietcat') }}"><i class="fas fa-plus-circle me-2"></i> Add
+                    Category</a></li>
+                <li><a class="nav-link" href="{{ url_for('view_dietcat') }}"><i class="fas fa-list me-2"></i> View
+                    Categories</a></li>
               </ul>
             </li>
 
+            <!-- Diet Plans -->
             <li class="dropdown">
-              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Manage diet
-                  plans </span></a>
+              <a href="#" class="menu-toggle nav-link has-dropdown">
+                <i data-feather="book-open"></i>
+                <span>Diet Plans</span>
+              </a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{url_for('dietplans')}}">Add plans</a></li>
-                <li><a class="nav-link" href="{{url_for('view_dietplans')}}">View plans</a></li>
+                <li><a class="nav-link" href="{{ url_for('dietplans') }}"><i class="fas fa-plus-circle me-2"></i> Add
+                    Plan</a></li>
+                <li><a class="nav-link" href="{{ url_for('view_dietplans') }}"><i class="fas fa-list me-2"></i> View
+                    Plans</a></li>
               </ul>
             </li>
 
+            <!-- Recipe Steps -->
             <li class="dropdown">
-              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Manage recipe
-                  steps </span></a>
+              <a href="#" class="menu-toggle nav-link has-dropdown">
+                <i data-feather="clipboard"></i>
+                <span>Recipe Steps</span>
+              </a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{url_for('steps')}}">Add steps</a></li>
-                <li><a class="nav-link" href="{{url_for('view_resteps')}}">View steps</a></li>
+                <li><a class="nav-link" href="{{ url_for('steps') }}"><i class="fas fa-plus-circle me-2"></i> Add
+                    Steps</a></li>
+                <li><a class="nav-link" href="{{ url_for('view_resteps') }}"><i class="fas fa-list me-2"></i> View
+                    Steps</a></li>
               </ul>
             </li>
 
+            <li class="menu-header">Shop & Plans</li>
 
-
+            <!-- Product Inventory -->
             <li class="dropdown">
-              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Manage product
-                  inventory </span></a>
+              <a href="#" class="menu-toggle nav-link has-dropdown">
+                <i data-feather="shopping-bag"></i>
+                <span>Product Inventory</span>
+              </a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{url_for('productinventory')}}">Add product</a></li>
-                <li><a class="nav-link" href="{{url_for('view_product')}}">View inventory</a></li>
+                <li><a class="nav-link" href="{{ url_for('productinventory') }}"><i class="fas fa-plus-circle me-2"></i>
+                    Add Product</a></li>
+                <li><a class="nav-link" href="{{ url_for('view_product') }}"><i class="fas fa-list me-2"></i> View
+                    Inventory</a></li>
               </ul>
             </li>
 
-
-
-
-
+            <!-- Membership Plans -->
             <li class="dropdown">
-              <a href="#" class="menu-toggle nav-link has-dropdown"><i data-feather="briefcase"></i><span>Manage
-                  membership plans </span></a>
+              <a href="#" class="menu-toggle nav-link has-dropdown">
+                <i data-feather="award"></i>
+                <span>Membership Plans</span>
+              </a>
               <ul class="dropdown-menu">
-                <li><a class="nav-link" href="{{url_for('membershipplan')}}">Add plans</a></li>
-                <li><a class="nav-link" href="{{url_for('view_membership')}}">View plans</a></li>
+                <li><a class="nav-link" href="{{ url_for('membershipplan') }}"><i class="fas fa-plus-circle me-2"></i>
+                    Add Plan</a></li>
+                <li><a class="nav-link" href="{{ url_for('view_membership') }}"><i class="fas fa-list me-2"></i> View
+                    Plans</a></li>
               </ul>
             </li>
 
-
-
-            </li>
-          </ul>
+          </ul><!-- /sidebar-menu -->
         </aside>
       </div>
+      <!-- /sidebar -->
 
+      <!-- ══════════════════════════════
+           PAGE CONTENT
+      ══════════════════════════════ -->
+      {% block content %}{% endblock %}
 
+      <!-- Footer -->
+      <footer
+        style="text-align:center;padding:20px 24px;font-size:12px;color:#94a3b8;border-top:1px solid #e8edf5;background:#fff;margin-top:auto;">
+        &copy; 2024 <strong style="color:#2d3250;">Fitness Guru</strong> — Admin Panel. All rights reserved.
+      </footer>
 
-      {% block content %} {% endblock %}
+    </div><!-- /main-wrapper -->
+  </div><!-- /app -->
 
+  <!-- Scripts -->
+  <script src="/static/admin/assets/js/app.min.js"></script>
+  <script src="/static/admin/assets/bundles/apexcharts/apexcharts.min.js"></script>
+  <script src="/static/admin/assets/js/page/index.js"></script>
+  <script src="/static/admin/assets/js/scripts.js"></script>
+  <script src="/static/admin/assets/js/custom.js"></script>
 
+  <script>
+    // Init Feather Icons
+    if (typeof feather !== 'undefined') feather.replace();
+  </script>
 
-      <!-- General JS Scripts -->
-      <script src="/static/admin/assets/js/app.min.js"></script>
-      <!-- JS Libraies -->
-      <script src="/static/admin/assets/bundles/apexcharts/apexcharts.min.js"></script>
-      <!-- Page Specific JS File -->
-      <script src="/static/admin/assets/js/page/index.js"></script>
-      <!-- Template JS File -->
-      <script src="/static/admin/assets/js/scripts.js"></script>
-      <!-- Custom JS File -->
-      <script src="/static/admin/assets/js/custom.js"></script>
 </body>
-
-
-<!-- index.html  21 Nov 2019 03:47:04 GMT -->
 
 </html>

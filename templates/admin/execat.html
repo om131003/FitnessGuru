@@ -2,53 +2,63 @@
 
 {% block content %}
 
-<!-- Main Content -->
-      <div class="main-content">
-        <section class="section">
-          <div class="section-body">
-            <div class="row">
-              <div class="col-12 col-md-6 col-lg-6">
-                
-                <div class="card">
-                  <form action="{{ url_for('add_execat') }}" method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
-                    <div class="card-header">
-                      <h4>Exercise category </h4>
-                    </div>
-                    <div class="card-body">
-                      <div class="form-group">
-                        <label>Category name</label>
-                        <input type="text" class="form-control" name="cat_name" required="">
-                        <div class="invalid-feedback">
-                          which body mussels ?
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label>Exercise Image</label>
-                        <input type="file" class="form-control" name="cat_image" required="">
-                        <div class="invalid-feedback">
-                          image!
-                        </div>
-                      </div>
-                      <div class="form-group mb-0">
-                        <label>Exercise Description	</label>
-                        <textarea class="form-control"name="exercise_description" required="" placeholder="message"></textarea>
-                        <div class="invalid-feedback">
-                          What do you wanna say?
-                        </div>
-                      </div>
-                    </div>
-                    <div class="card-footer text-right">
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              
-              
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+<div class="main-content">
+  <section class="section">
+    <div style="max-width:1400px;margin:0 auto;padding:0 24px 40px;">
 
-        {% endblock %}
+      <!-- ── Page Header ── -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;">
+        <div>
+          <h1 style="font-family:'Poppins',sans-serif;font-size:26px;font-weight:800;color:#1a2035;margin:0;">
+            Exercise Categories
+          </h1>
+          <p style="margin:4px 0 0;font-size:14px;color:#64748b;">
+            Group exercises by muscle group or difficulty level.
+          </p>
+        </div>
+        <a href="{{url_for('view_execat')}}" class="btn btn-secondary">
+          <i class="fas fa-list me-1"></i> View Categories
+        </a>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-8 col-lg-6">
+          <div class="card">
+            <form action="{{ url_for('add_execat') }}" method="POST" class="needs-validation" novalidate="" enctype="multipart/form-data">
+              <div class="card-header">
+                <h4>Create Category</h4>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Category name</label>
+                  <input type="text" class="form-control" name="cat_name" placeholder="e.g. Chest, Legs, Cardio" required="">
+                  <div class="invalid-feedback">Please specify a category name.</div>
+                </div>
+
+                <div class="form-group">
+                  <label>Representative Image</label>
+                  <input type="file" class="form-control" name="cat_image" required="">
+                  <div class="invalid-feedback">Please upload an image.</div>
+                </div>
+
+                <div class="form-group">
+                  <label>Category Description</label>
+                  <textarea class="form-control" name="exercise_description" style="height:100px;" required="" placeholder="A brief overview of exercises in this category..."></textarea>
+                  <div class="invalid-feedback">Please provide a description.</div>
+                </div>
+              </div>
+              <div class="card-footer" style="background:#fcfcfd;border-top:1px solid #f1f5f9;display:flex;justify-content:flex-end;">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-check-circle me-1"></i> Save Category
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+{% endblock %}

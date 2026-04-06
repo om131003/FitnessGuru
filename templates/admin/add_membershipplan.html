@@ -2,67 +2,76 @@
 
 {% block content %}
 
-<!-- Main Content -->
-      <div class="main-content">
-        <section class="section">
-          <div class="section-body">
-            <div class="row">
-              <div class="col-12 col-md-6 col-lg-6">
-                
-                <div class="card">
-                  <form action="{{url_for('add_member')}}" method="POST" enctype="multipart/form-data" class="needs-validation" novalidate="">
-                    <div class="card-header">
-                      <h4>Membership plans</h4>
-                    </div>
-                    <div class="card-body">
-                      <div class="form-group">
-                        <label>Plan name</label>
-                        <input type="text" name="mp_planname"class="form-control" required="">
-                        <div class="invalid-feedback">
-                          What is your plan name ?
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label>Duration (months)</label>
-                        <input type="text" name="mp_durationmonts"  class="form-control" required="">
-                        <div class="invalid-feedback">
-                          What is the duration in months ?
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label>Price</label>
-                        <input type="text" name="mp_price" class="form-control" required="">
-                        <div class="invalid-feedback">
-                          What is the price ?
-                        </div>
-                      </div>
-                       <div class="form-group">
-                        <label>Status</label>
-                        <input type="text" name="mp_status"  class="form-control" required="">
-                        <div class="invalid-feedback">
-                          What is the status ?
-                        </div>
-                      </div>
-                      <!-- <div class="form-group mb-0">
-                        <label>Exercise_Description	</label>
-                        <textarea class="form-control" required=""></textarea>
-                        <div class="invalid-feedback">
-                          What do you wanna say?
-                        </div>
-                      </div>
-                    </div> -->
-                    <div class="card-footer text-right">
-                      <button type="submit" class="btn btn-primary">Submit</button>
-                    </div>
-                  </form>
-                </div>
-              </div>
-              
-                  </form>
-                </div>
-              </div>
-            </div>
-          </div>
-        </section>
+<div class="main-content">
+  <section class="section">
+    <div style="max-width:1400px;margin:0 auto;padding:0 24px 40px;">
 
-        {% endblock %}
+      <!-- ── Page Header ── -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;">
+        <div>
+          <h1 style="font-family:'Poppins',sans-serif;font-size:26px;font-weight:800;color:#1a2035;margin:0;">
+            Membership Plans
+          </h1>
+          <p style="margin:4px 0 0;font-size:14px;color:#64748b;">
+            Create exclusive membership tiers for your gym members.
+          </p>
+        </div>
+        <a href="{{url_for('view_membership')}}" class="btn btn-secondary">
+          <i class="fas fa-list me-1"></i> View All Plans
+        </a>
+      </div>
+
+      <div class="row">
+        <div class="col-12 col-md-8 col-lg-6">
+          <div class="card">
+            <form action="{{url_for('add_member')}}" method="POST" class="needs-validation" novalidate="">
+              <div class="card-header">
+                <h4>Plan Details</h4>
+              </div>
+              <div class="card-body">
+                <div class="form-group">
+                  <label>Plan Name</label>
+                  <input type="text" name="mp_planname" class="form-control" placeholder="e.g. Gold Monthly" required="">
+                  <div class="invalid-feedback">Please enter a plan name.</div>
+                </div>
+
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Duration (Months)</label>
+                      <input type="number" name="mp_durationmonths" class="form-control" placeholder="12" required="">
+                      <div class="invalid-feedback">Please enter the duration.</div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label>Price (₹)</label>
+                      <input type="number" name="mp_price" class="form-control" placeholder="2999" required="">
+                      <div class="invalid-feedback">Please enter the price.</div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="form-group">
+                  <label>Status</label>
+                  <select name="mp_status" class="form-control" required="">
+                    <option value="Active">Active</option>
+                    <option value="Inactive">Inactive</option>
+                  </select>
+                </div>
+              </div>
+              <div class="card-footer" style="background:#fcfcfd;border-top:1px solid #f1f5f9;display:flex;justify-content:flex-end;">
+                <button type="submit" class="btn btn-primary">
+                  <i class="fas fa-check-circle me-1"></i> Create Plan
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+{% endblock %}

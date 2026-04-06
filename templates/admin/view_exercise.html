@@ -4,58 +4,84 @@
 
 <div class="main-content">
   <section class="section">
-    <div class="section-body">
+    <div style="max-width:1400px;margin:0 auto;padding:0 24px 40px;">
+
+      <!-- ── Page Header ── -->
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:32px;">
+        <div>
+          <h1 style="font-family:'Poppins',sans-serif;font-size:26px;font-weight:800;color:#1a2035;margin:0;">
+            Exercise Library
+          </h1>
+          <p style="margin:4px 0 0;font-size:14px;color:#64748b;">
+            Manage the exercises available for your members.
+          </p>
+        </div>
+        <a href="{{url_for('exercise')}}" class="btn btn-primary">
+          <i class="fas fa-plus-circle me-1"></i> Add Exercise
+        </a>
+      </div>
+
       <div class="row">
-        <div class="col-12 col-md-6 col-lg-11">
+        <div class="col-12">
           <div class="card">
             <div class="card-header">
-              <h4>Diet plans Table</h4>
+              <h4>Exercise Table</h4>
             </div>
-            <div class="card-body">
-
-              <table class="table table-bordered table-md">
-                <tr>
-                  <th>#</th>
-                  <th>Exercise category</th>
-                  <th>Exercise name</th>
-                  <th>Exercise video</th>
-                  <th>Exercise equipment</th>
-                  <th>Exercise sets</th>
-                  <th>Exercise reps</th>
-                  <th>Exercise description</th>
-
-                  <th>Action</th>
-                </tr>
-
-
-                <tbody>
-                  {% set count=1 %}
-                  {% for exeview in view_exercise %}
-                  {% set count = loop.index %}
-                  <tr>
-                    <td>{{count}}</td>
-                    <td>{{exeview[1]}}</td>
-                    <td>{{exeview[2]}}</td>
-                    <td><video  src="{{exeview[3]}}" height="100" width="100" autoplay></td>
-                    <td>{{exeview[4]}}</td>
-                    <td>{{exeview[5]}}</td>
-                    <td>{{exeview[6]}}</td>
-                    <td>{{exeview[7]}}</td>
-                    
-
-
-
-                    <td><a class="btn btn-danger" href="{{url_for('delete_exercise',exercise_id =exeview[0])}}" onclick="return confirm('Are you sure to delete this exercise?')">Delete
-                    </a>
-                  <a class="btn btn-primary" href="{{url_for('edit_exercise',exercise_id =exeview[0])}}">Edit</a> </td>
-                  </tr>
-                  {% endfor %}
-                </tbody>
-
-              </table>
-
+            <div class="card-body p-0">
+              <div class="table-responsive">
+                <table class="table table-striped table-md">
+                  <thead>
+                    <tr>
+                      <th style="width: 60px;">#</th>
+                      <th>Category</th>
+                      <th>Name</th>
+                      <th>Preview</th>
+                      <th>Equipment</th>
+                      <th>Sets/Reps</th>
+                      <th>Description</th>
+                      <th class="text-right">Action</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% set count=1 %}
+                    {% for exeview in view_exercise %}
+                    {% set count = loop.index %}
+                    <tr>
+                      <td>{{count}}</td>
+                      <td><span class="badge badge-info">{{exeview[1]}}</span></td>
+                      <td style="font-weight:600;">{{exeview[2]}}</td>
+                      <td>
+                        <div style="width:80px;height:50px;overflow:hidden;border-radius:8px;background:#000;display:flex;align-items:center;justify-content:center;position:relative;">
+                          <video src="{{exeview[3]}}" style="max-width:100%;max-height:100%;"></video>
+                          <div style="position:absolute;inset:0;background:rgba(0,0,0,0.4);display:flex;align-items:center;justify-content:center;color:#fff;font-size:10px;">
+                            <i class="fas fa-play"></i>
+                          </div>
+                        </div>
+                      </td>
+                      <td>{{exeview[4]}}</td>
+                      <td>
+                        <div style="display:flex;gap:4px;">
+                          <span class="badge badge-primary">{{exeview[5]}} Sets</span>
+                          <span class="badge badge-primary">{{exeview[6]}} Reps</span>
+                        </div>
+                      </td>
+                      <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{exeview[7]}}</td>
+                      <td class="text-right">
+                        <div style="display:flex;justify-content:flex-end;gap:8px;">
+                          <a class="btn btn-secondary btn-sm" href="{{url_for('edit_exercise',exercise_id =exeview[0])}}">
+                            <i class="fas fa-edit"></i> Edit
+                          </a>
+                          <a class="btn btn-danger btn-sm" href="{{url_for('delete_exercise',exercise_id =exeview[0])}}" onclick="return confirm('Are you sure to delete this exercise?')">
+                            <i class="fas fa-trash"></i> Delete
+                          </a>
+                        </div>
+                      </td>
+                    </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              </div>
             </div>
-
           </div>
         </div>
       </div>

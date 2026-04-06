@@ -1,101 +1,358 @@
-
-
 <!DOCTYPE html>
 <html lang="en">
-
-
-<!-- auth-login.html  21 Nov 2019 03:49:32 GMT -->
 <head>
   <meta charset="UTF-8">
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Admin Dashboard </title>
-  <link rel="stylesheet" href="/static/admin/assets/css/app.min.css">
-  <link rel="stylesheet" href="/static/admin/assets/css/admin_theme.css">
-  <link rel="stylesheet" href="/static/admin/assets/css/custom.css">
-  <link rel='shortcut icon' type='image/x-icon' href='/static/admin/assets/img/favicon.ico' />
-</head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Login — Fitness Guru</title>
+  <link rel="shortcut icon" type="image/x-icon" href="/static/admin/assets/img/favicon.ico">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
 
-<body class="auth-bg">
-  <!-- <div class="loader"></div> -->
-  <div id="app">
-    <section class="section">
-      <div class="container mt-5">
-        <div class="row">
-          <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
-            <div class="card card-auth">
-              <div class="card-header" style="justify-content: center; padding: 40px 0 20px;">
-                <h4 style="font-family: 'Orbitron', sans-serif; color: var(--primary); font-weight: 700;">ADMIN LOGIN</h4>
-              </div>
-              <div class="card-body">
-                <form method="POST" action="{{url_for ('adminloginprocess')}}" class="needs-validation">
-                  <div class="form-group">
-                    <label for="email">Email</label>
-                    <input id="email" type="email" class="form-control" name="a_email" tabindex="1" required autofocus>
-                    <div class="invalid-feedback">
-                      Please fill in your email
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="d-block">
-                      <label for="password" class="control-label">Password</label>
-                      <!-- <div class="float-right">
-                        <a href="auth-forgot-password.html" class="text-small">
-                          Forgot Password?
-                        </a>
-                      </div> -->
-                    </div>
-                    <input id="password" type="password" class="form-control" name="a_password" tabindex="2" required>
-                    <div class="invalid-feedback">
-                      please fill in your password
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <!-- <div class="custom-control custom-checkbox">
-                      <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
-                      <label class="custom-control-label" for="remember-me">Remember Me</label>
-                    </div> -->
-                  </div>
-                  <div class="form-group">
-                    <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
-                      Login
-                    </button>
-                  </div>
-                </form>
-                <!-- <div class="text-center mt-4 mb-3">
-                  <div class="text-job text-muted">Login With Social</div>
-                </div> -->
-                <!-- <div class="row sm-gutters">
-                  <div class="col-6">
-                    <a class="btn btn-block btn-social btn-facebook">
-                      <span class="fab fa-facebook"></span> Facebook
-                    </a>
-                  </div>
-                  <div class="col-6">
-                    <a class="btn btn-block btn-social btn-twitter">
-                      <span class="fab fa-twitter"></span> Twitter
-                    </a>
-                  </div>
-                </div> -->
-              </div>
-            </div>
-            <!-- <div class="mt-5 text-muted text-center">
-              Don't have an account? <a href="auth-register.html">Create One</a>
-            </div> -->
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #2d3250;
+      --mid:    #424769;
+      --slate:  #676f9d;
+      --accent: #f9b17a;
+      --accent2:#f0924a;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, var(--navy) 0%, #1e2347 50%, var(--mid) 100%);
+      overflow: hidden;
+      position: relative;
+    }
+
+    /* Animated Background Blobs */
+    .bg-blob {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.25;
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .blob-1 {
+      width: 500px; height: 500px;
+      background: var(--accent);
+      top: -150px; right: -100px;
+      animation-delay: 0s;
+    }
+    .blob-2 {
+      width: 400px; height: 400px;
+      background: var(--slate);
+      bottom: -120px; left: -80px;
+      animation-delay: -3s;
+    }
+    .blob-3 {
+      width: 250px; height: 250px;
+      background: var(--accent2);
+      top: 50%; left: 10%;
+      animation-delay: -6s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0) scale(1); }
+      50%       { transform: translateY(-30px) scale(1.05); }
+    }
+
+    /* Grid dots overlay */
+    body::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image: radial-gradient(rgba(255,255,255,0.07) 1px, transparent 1px);
+      background-size: 32px 32px;
+      pointer-events: none;
+    }
+
+    /* Card */
+    .login-wrapper {
+      position: relative;
+      z-index: 10;
+      width: 100%;
+      max-width: 440px;
+      padding: 20px;
+      animation: slideUp 0.6s cubic-bezier(0.4,0,0.2,1) both;
+    }
+
+    @keyframes slideUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-card {
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255,255,255,0.14);
+      border-radius: 28px;
+      padding: 48px 44px;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.35), inset 0 1px 0 rgba(255,255,255,0.12);
+    }
+
+    /* Logo area */
+    .login-logo {
+      text-align: center;
+      margin-bottom: 36px;
+    }
+
+    .login-logo img {
+      height: 62px;
+      width: auto;
+      filter: drop-shadow(0 0 20px rgba(249,177,122,0.5));
+      animation: pulse-glow 3s ease-in-out infinite;
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% { filter: drop-shadow(0 0 20px rgba(249,177,122,0.5)); }
+      50%       { filter: drop-shadow(0 0 35px rgba(249,177,122,0.8)); }
+    }
+
+    .login-logo .brand-name {
+      display: block;
+      margin-top: 12px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 22px;
+      font-weight: 800;
+      color: #fff;
+      letter-spacing: 1px;
+    }
+
+    .login-logo .brand-sub {
+      display: block;
+      margin-top: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--accent);
+      letter-spacing: 3px;
+      text-transform: uppercase;
+    }
+
+    /* Form elements */
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 8px;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap .input-icon {
+      position: absolute;
+      left: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: rgba(255,255,255,0.35);
+      font-size: 15px;
+      pointer-events: none;
+      transition: color 0.3s;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      height: 52px;
+      background: rgba(255,255,255,0.07);
+      border: 1.5px solid rgba(255,255,255,0.12);
+      border-radius: 14px;
+      padding: 0 16px 0 46px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: #fff;
+      outline: none;
+      transition: all 0.3s ease;
+    }
+
+    .input-wrap input::placeholder { color: rgba(255,255,255,0.30); }
+
+    .input-wrap input:focus {
+      background: rgba(255,255,255,0.11);
+      border-color: var(--accent);
+      box-shadow: 0 0 0 4px rgba(249,177,122,0.18);
+    }
+
+    .input-wrap input:focus ~ .input-icon,
+    .input-wrap:focus-within .input-icon {
+      color: var(--accent);
+    }
+
+    /* Toggle password */
+    .toggle-pw {
+      position: absolute;
+      right: 16px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      color: rgba(255,255,255,0.35);
+      cursor: pointer;
+      font-size: 15px;
+      transition: color 0.3s;
+      padding: 0;
+    }
+    .toggle-pw:hover { color: var(--accent); }
+
+    /* Submit button */
+    .btn-login {
+      width: 100%;
+      height: 54px;
+      margin-top: 10px;
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 100%);
+      border: none;
+      border-radius: 14px;
+      font-family: 'Poppins', sans-serif;
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--navy);
+      letter-spacing: 0.5px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 8px 24px rgba(249,177,122,0.35);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .btn-login:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 14px 36px rgba(249,177,122,0.50);
+      filter: brightness(1.06);
+    }
+
+    .btn-login:active { transform: translateY(0); }
+
+    /* Footer text */
+    .login-footer {
+      text-align: center;
+      margin-top: 28px;
+      font-size: 12px;
+      color: rgba(255,255,255,0.30);
+    }
+
+    .login-footer span { color: var(--accent); }
+
+    /* Error flash */
+    .flash-msg {
+      background: rgba(252,129,129,0.15);
+      border: 1px solid rgba(252,129,129,0.35);
+      border-radius: 12px;
+      padding: 12px 16px;
+      font-size: 13px;
+      color: #fca5a5;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated blobs -->
+  <div class="bg-blob blob-1"></div>
+  <div class="bg-blob blob-2"></div>
+  <div class="bg-blob blob-3"></div>
+
+  <div class="login-wrapper">
+    <div class="login-card">
+
+      <!-- Logo -->
+      <div class="login-logo">
+        <img src="{{ url_for('static', filename='Images/Fitness Guru logo.png') }}" alt="Fitness Guru Logo">
+        <span class="brand-name">Fitness Guru</span>
+        <span class="brand-sub">Admin Portal</span>
+      </div>
+
+      <!-- Flash messages -->
+      {% with messages = get_flashed_messages() %}
+        {% if messages %}
+          {% for msg in messages %}
+            <div class="flash-msg"><i class="fas fa-exclamation-circle"></i> {{ msg }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <!-- Login Form -->
+      <form method="POST" action="{{ url_for('adminloginprocess') }}">
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <div class="input-wrap">
+            <i class="fas fa-envelope input-icon"></i>
+            <input
+              id="email"
+              type="email"
+              name="a_email"
+              placeholder="admin@fitnessguru.com"
+              tabindex="1"
+              autocomplete="email"
+              required
+              autofocus
+            >
           </div>
         </div>
-      </div>
-    </section>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <i class="fas fa-lock input-icon"></i>
+            <input
+              id="password"
+              type="password"
+              name="a_password"
+              placeholder="••••••••••"
+              tabindex="2"
+              autocomplete="current-password"
+              required
+            >
+            <button type="button" class="toggle-pw" id="togglePw" tabindex="-1" aria-label="Show password">
+              <i class="fas fa-eye" id="eyeIcon"></i>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-login" tabindex="3">
+          <i class="fas fa-sign-in-alt"></i>
+          Sign In to Dashboard
+        </button>
+
+      </form>
+
+      <p class="login-footer">Fitness Guru &copy; {{ 2024 }} &mdash; <span>Admin Access Only</span></p>
+
+    </div>
   </div>
-  <!-- General JS Scripts -->
-  <script src="/static/admin/assets/js/app.min.js"></script>
-  <!-- JS Libraies -->
-  <!-- Page Specific JS File -->
-  <!-- Template JS File -->
-  <script src="/static/admin/assets/js/scripts.js"></script>
-  <!-- Custom JS File -->
-  <script src="/static/admin/assets/js/custom.js"></script>
+
+  <script>
+    // Toggle password visibility
+    const togglePw = document.getElementById('togglePw');
+    const pwInput  = document.getElementById('password');
+    const eyeIcon  = document.getElementById('eyeIcon');
+
+    if (togglePw) {
+      togglePw.addEventListener('click', () => {
+        const isText = pwInput.type === 'text';
+        pwInput.type = isText ? 'password' : 'text';
+        eyeIcon.className = isText ? 'fas fa-eye' : 'fas fa-eye-slash';
+      });
+    }
+  </script>
 </body>
-
-
-<!-- auth-login.html  21 Nov 2019 03:49:32 GMT -->
 </html>
