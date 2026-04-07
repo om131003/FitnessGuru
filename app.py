@@ -406,8 +406,9 @@ def add_member():
     mp_durationmonths =request.form['mp_durationmonths']
     mp_price =request.form['mp_price']
     mp_status =request.form['mp_status']
-    query = "INSERT INTO tbl_membershipplans(mp_planname,mp_durationmonths,mp_price,mp_status)VALUES(%s,%s,%s,%s)"
-    val = (mp_planname,mp_durationmonths,mp_price,mp_status)
+    mp_benefits =request.form['mp_benefits']
+    query = "INSERT INTO tbl_membershipplans(mp_planname,mp_durationmonths,mp_price,mp_status,mp_benefits)VALUES(%s,%s,%s,%s,%s)"
+    val = (mp_planname,mp_durationmonths,mp_price,mp_status,mp_benefits)
     cursor.execute(query,val)
     conn.commit()
     cursor.close()
@@ -449,9 +450,10 @@ def update_membership():
     mp_planname = request.form['mp_planname']
     mp_durationmonths = request.form['mp_durationmonths']
     mp_price = request.form['mp_price']
+    mp_benefits = request.form['mp_benefits']
     mp_status = request.form['mp_status']
-    query = "UPDATE tbl_membershipplans SET mp_planname=%s, mp_durationmonths=%s, mp_price=%s, mp_status=%s WHERE membership_id=%s"
-    val = (mp_planname, mp_durationmonths,mp_price, mp_status, membership_id)
+    query = "UPDATE tbl_membershipplans SET mp_planname=%s, mp_durationmonths=%s, mp_price=%s, mp_status=%s, mp_benefits=%s WHERE membership_id=%s"
+    val = (mp_planname, mp_durationmonths,mp_price, mp_status, mp_benefits, membership_id)
     cursor.execute(query, val)
     conn.commit()
     cursor.close()
@@ -909,6 +911,14 @@ def view_cart():
     return render_template("user/view_cart.html", cart_items=cart_items)
 
 
+@app.route("/u_view_membership")
+def u_view_membership():
+    cursor = conn.cursor()
+    query = "SELECT * FROM tbl_membershipplans"
+    cursor.execute(query)
+    view_membership = cursor.fetchall()
+    
+    return render_template("user/u_view_membership.html", view_membership=view_membership)
 if __name__ == "__main__":
     app.run(debug=True)
 

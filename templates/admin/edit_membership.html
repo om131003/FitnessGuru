@@ -37,6 +37,13 @@
                           what is the price of a plan ?
                         </div>
                       </div>
+                      <div class="form-group mb-0">
+                        <label>Plan Benefits</label>
+                        <textarea class="form-control" name="mp_benefits" required="">{{j[5]}}</textarea>
+                        <div class="invalid-feedback">
+                          What do you wanna say?
+                        </div>
+                      </div>
 
                       <div class="form-group">
                         <label>Status</label>
@@ -47,6 +54,8 @@
                           <option value="0" {% if j[4] == 0 %}selected{% endif %}>Deactive</option>
                         </select>
                       </div>
+                    
+                    
                       
               {% endfor %}
 

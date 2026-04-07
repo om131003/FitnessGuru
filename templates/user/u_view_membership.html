@@ -1,0 +1,33 @@
+{% extends 'user/u_layout.html' %}
+{% block content %}
+
+<section class="s-club-cards">
+	<div class="container">
+		<h2 class="title-decor">Club <span>Cards</span></h2>
+		<p class="slogan">“Results don’t come from wishing, they come from action.
+Get your membership and start your journey today.”</p>
+		<div class="row">
+			{% for j in view_membership %}
+			<div class="col-md-4 club-card-col">
+				<div class="club-card-item" style="background-image: url(/static/user/assets/img/bg-price-3.svg);">
+					<div class="price-cover">
+						<div class="price">{{ j[3] }}</div>
+						
+						<div class="date"><span></span></div>
+						<div class="month">{{j[2]}} <span>{{j[1]}}</div>
+					</div>
+					<ul class="list">
+						<li>{{ j[5] }}</li>
+						
+						
+					</ul>
+					<a href="program.html" class="btn">order now</a>
+				</div>
+			</div>
+			{% endfor %}
+		</div>
+	</div>
+</section>
+
+
+{% endblock %}
