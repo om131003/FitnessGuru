@@ -17,17 +17,60 @@ Get your membership and start your journey today.”</p>
 						<div class="month">{{j[2]}} <span>{{j[1]}}</div>
 					</div>
 					<ul class="list">
-						<li>{{ j[5] }}</li>
-						
-						
+						<li>{{j[5]}}</li>
+							
 					</ul>
-					<a href="program.html" class="btn">order now</a>
+		<button type="button" 
+        onclick="payNow({{ j[0] | tojson }}, {{ j[3] | float | tojson }})"
+        class="btn btn-danger">
+    Order Now
+</button>
 				</div>
 			</div>
 			{% endfor %}
 		</div>
 	</div>
 </section>
-
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+function payNow(membershipId, amount) {
+	//alert(membershipId);
+    var options = {
+        "key": "rzp_test_SawmDSCZDf6iCT", // Replace with your key
+        "amount": amount * 100, // Amount in paise
+        "currency": "INR",
+        "name": "Your Gym Name",
+        "description": "Membership Payment",
+        "handler": function (response){
+            // Send payment details to backend
+fetch("{{ url_for('payment_success') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                    "X-CSRFToken": "{{ csrf_token }}"
+                },
+                body: JSON.stringify({
+                    "razorpay_payment_id": response.razorpay_payment_id,
+                    "membership_id": membershipId,
+                    "tot_amount": amount
+                })
+            }).then(res => res.json())
+            .then(data => {
+                if(data.status === 'success'){
+                    alert('Payment successful!');
+                    window.location.reload();
+                } else {
+                    alert('Payment failed!');
+                }
+            });
+        },
+        "theme": {
+            "color": "#3399cc"
+        }
+    };
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+}
+</script>
 
 {% endblock %}

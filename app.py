@@ -1,14 +1,20 @@
-from flask import Flask, request,render_template,session,redirect,url_for
+from unittest import result
+
+from flask import Flask, request,render_template,session,redirect,url_for,jsonify
 
 from flask_session import Session
 from werkzeug.utils import secure_filename
 import pymysql
 import os
+import razorpay
+
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
 app.config["SESSION_TYPE"] = "filesystem"
 Session(app)
+client = razorpay.Client(auth=("rzp_test_SawmDSCZDf6iCT", "ex7shOt5aHlaHtAwY0LNZNxG"))
+
 
 
 
@@ -700,7 +706,12 @@ def logout():
 #<===================USER DASHBOARD==================>
 @app.route("/u_dashboard")
 def u_dashboard():
-    return render_template("user/u_dashboard.html")
+    u_id = session['u_id']
+    cursor=conn.cursor()
+    cursor.execute("SELECT COUNT(*) as count FROM tbl_sub WHERE u_id = %s", (u_id,))
+    result = cursor.fetchone()
+    has_subscription = result[0] > 0
+    return render_template("user/u_dashboard.html",has_subscription=has_subscription)
 
 
 # <===================USER REGISTRATION==================>
@@ -919,6 +930,44 @@ def u_view_membership():
     view_membership = cursor.fetchall()
     
     return render_template("user/u_view_membership.html", view_membership=view_membership)
+
+
+
+@app.route('/payment_success', methods=['POST'])
+def payment_success():
+    #print("Payment success endpoint hit")
+    if 'u_id' not in session:
+        return jsonify({"status": "failed", "message": "User not logged in"}), 401
+    
+    u_id = session['u_id']
+    data = request.get_json()
+    cursor = conn.cursor()
+    print(u_id)
+
+    
+    membership_id = data.get('membership_id')
+    tot_amount = data.get('tot_amount')
+    razorpay_payment_id = data.get('razorpay_payment_id')
+    #print(membership_id, tot_amount, razorpay_payment_id)
+
+    
+    query = """
+    INSERT INTO tbl_sub (u_id, membership_id, amount, razorpay_payment_id) 
+    VALUES (%s, %s, %s, %s)
+    """
+    cursor.execute(query, (u_id, membership_id, tot_amount, razorpay_payment_id))
+    conn.commit()
+    return jsonify({"status": "success"})
+    
+    
+
+
+
+
+
+
+
+    
 if __name__ == "__main__":
     app.run(debug=True)
 

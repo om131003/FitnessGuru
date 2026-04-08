@@ -111,8 +111,11 @@
 						data-src="/static/user/assets/img/serv-2.svg" alt="img">
 					<h3>DIET PLANS</h3>
 					<p>Small healthy choices today create a stronger tomorrow.</p>
-					<a class="btn" href="{{url_for('u_diet')}}">view Schedule</a>
-				</div>
+
+<a class="btn" 
+   href="{% if has_subscription %}{{ url_for('u_diet') }}{% else %}{{ url_for('u_view_membership') }}{% endif %}">
+   View Schedule
+</a>				</div>
 			</div>
 			<div class="col-md-4 crossfit-col">
 				<div class="crossfit-item">
@@ -120,8 +123,10 @@
 						data-src="/static/user/assets/img/fooddd.png" alt="img" style="width: 160px;">
 					<h3>RECIPES</h3>
 					<p>Simple recipes, powerful nutrition.</p>
-					<a class="btn" href="{{url_for('u_recieps')}}">view Schedule</a>
-				</div>
+<a class="btn" 
+   href="{% if has_subscription %}{{ url_for('u_recieps') }}{% else %}{{ url_for('u_view_membership') }}{% endif %}">
+   View Schedule
+</a>				</div>
 			</div>
 		</div>
 	</div>
