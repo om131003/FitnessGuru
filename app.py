@@ -7,7 +7,8 @@ from werkzeug.utils import secure_filename
 import pymysql
 import os
 import razorpay
-
+import datetime
+import random
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -706,14 +707,17 @@ def logout():
 #<===================USER DASHBOARD==================>
 @app.route("/u_dashboard")
 def u_dashboard():
-    u_id = session['u_id']
-    cursor=conn.cursor()
-    cursor.execute("SELECT COUNT(*) as count FROM tbl_sub WHERE u_id = %s", (u_id,))
-    result = cursor.fetchone()
-    has_subscription = result[0] > 0
-    return render_template("user/u_dashboard.html",has_subscription=has_subscription)
+    u_id = session.get('u_id')   # ✅ safe access
 
+    has_subscription = False  # default
 
+    if u_id:  # only check if logged in
+        cursor = conn.cursor()
+        cursor.execute("SELECT COUNT(*) FROM tbl_sub WHERE u_id = %s", (u_id,))
+        result = cursor.fetchone()
+        has_subscription = result[0] > 0
+
+    return render_template("user/u_dashboard.html", has_subscription=has_subscription)
 # <===================USER REGISTRATION==================>
 @app.route("/u_registration")
 def u_registration():
@@ -916,10 +920,161 @@ def view_cart():
     if 'u_id' not in session:
         return redirect(url_for('u_login'))
     u_id= session['u_id']
-    query = "SELECT c.cart_id, p.p_name, p.p_unitprice, c.quantity FROM table_cart c JOIN table_product p ON c.product_id = p.product_id WHERE c.u_id = %s"
+    query = "SELECT c.cart_id, p.p_name, p.p_unitprice, c.quantity, p.p_image FROM table_cart c JOIN table_product p ON c.product_id = p.product_id WHERE c.u_id = %s"
     cursor.execute(query, (u_id,))
     cart_items = cursor.fetchall()
-    return render_template("user/view_cart.html", cart_items=cart_items)
+
+    total_price = 0
+    for item in cart_items:
+        total_price += float(item[2]) * item[3]
+
+    return render_template("user/view_cart.html", cart_items=cart_items, total_price=total_price)
+
+
+@app.route("/update_cart_quantity")
+def update_cart_quantity():
+    if 'u_id' not in session:
+        return redirect(url_for('u_login'))
+    
+    cart_id = request.args.get('cart_id')
+    action = request.args.get('action')
+    
+    cursor = conn.cursor()
+    if action == 'increase':
+        query = "UPDATE table_cart SET quantity = quantity + 1 WHERE cart_id = %s"
+    elif action == 'decrease':
+        # Don't decrease below 1
+        query = "UPDATE table_cart SET quantity = GREATEST(1, quantity - 1) WHERE cart_id = %s"
+    
+    cursor.execute(query, (cart_id,))
+    conn.commit()
+    cursor.close()
+    return redirect(url_for('view_cart'))
+
+
+@app.route("/delete_cart_item")
+def delete_cart_item():
+    if 'u_id' not in session:
+        return redirect(url_for('u_login'))
+    
+    cart_id = request.args.get('cart_id')
+    cursor = conn.cursor()
+    query = "DELETE FROM table_cart WHERE cart_id = %s"
+    cursor.execute(query, (cart_id,))
+    conn.commit()
+    cursor.close()
+    return redirect(url_for('view_cart'))
+
+
+@app.route("/place_order", methods=["POST"])
+def place_order():
+    cursor = conn.cursor()
+    u_id = session.get("u_id")
+
+    # 🔴 Safety check
+    if not u_id:
+        return "User not logged in"
+
+    # 🔹 1. Get cart items
+    cursor.execute("SELECT p_id, quantity FROM tbl_cart WHERE u_id = %s", (u_id,))
+    cart_items = cursor.fetchall()
+
+    if not cart_items:
+        return "Cart is empty"
+
+    # 🔹 2. Calculate total amount
+    cursor.execute("""
+        SELECT SUM(p.p_unitprice * c.quantity)
+        FROM tbl_cart c
+        JOIN tbl_products p ON c.p_id = p.p_id
+        WHERE c.u_id = %s
+    """, (u_id,))
+    
+    total = cursor.fetchone()[0] or 0
+    total_amount = round(total * 1.18, 2)
+
+    # 🔹 3. Create order
+    import random
+    order_number = "ORD" + str(random.randint(10000, 99999))
+    order_status = "Paid"
+
+    cursor.execute("""
+        INSERT INTO tbl_orders (order_number, u_id, total_amount, order_status)
+        VALUES (%s, %s, %s, %s)
+    """, (order_number, u_id, total_amount, order_status))
+
+    conn.commit()
+
+    # 🔹 4. Get last inserted order_id
+    order_id = cursor.lastrowid
+
+    # 🔹 DEBUG
+    print("ORDER ID:", order_id)
+    print("CART ITEMS:", cart_items)
+
+    # 🔹 5. Insert into order_details
+    for item in cart_items:
+        product_id = item[0]
+        qty = item[1]
+
+        cursor.execute("""
+            INSERT INTO order_details (order_id, product_id, qty)
+            VALUES (%s, %s, %s)
+        """, (order_id, product_id, qty))
+
+    conn.commit()
+
+    # 🔹 6. Clear cart
+    cursor.execute("DELETE FROM tbl_cart WHERE u_id = %s", (u_id,))
+    conn.commit()
+
+    return redirect("/order_success")
+
+
+
+
+
+
+
+@app.route('/payment_success_cart', methods=['POST'])
+def payment_success_cart():
+    try:
+
+        data = request.get_json()
+        amount = data.get('total_amount')
+        user_id = session.get('u_id')
+
+        if not user_id:
+            return jsonify({'status': 'failed', 'msg': 'User not logged in'})
+
+        cursor = conn.cursor()
+
+        order_number = "ORD" + datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+
+        query = """
+        INSERT INTO tbl_orders (order_number, u_id, total_amount, order_status)
+        VALUES (%s, %s, %s, %s)
+        """
+        cursor.execute(query, (order_number, user_id, amount, "Paid"))
+        order_id = cursor.lastrowid
+
+
+        cart_query = "SELECT product_id, quantity FROM table_cart WHERE u_id=%s"
+        cursor.execute(cart_query, (user_id,))
+        cart_items = cursor.fetchall()
+
+       
+
+        cursor.execute("DELETE FROM table_cart WHERE u_id=%s", (user_id,))
+
+        conn.commit()
+
+        return jsonify({'status': 'success'})
+
+    except Exception as e:
+        print(" ERROR:", e)
+        return jsonify({'status': 'failed', 'error': str(e)})
+
 
 
 @app.route("/u_view_membership")

@@ -306,10 +306,22 @@
                         <span>₹ {{ (total_price * 1.18)|round(2) if total_price else 0 }}</span>
                     </div>
 
-                    <a href="{{ url_for('u_checkout') }}" class="btn-checkout">
-                        Authorize Payment <i class="fas fa-bolt" style="margin-left: 10px;"></i>
-                    </a>
-                    
+                    <!-- <form action="{{ url_for('place_order') }}" method="GET">
+    <input type="hidden" name="total_amount" value="{{ (total_price * 1.18)|round(2) }}">
+    
+    <button type="submit" class="btn-checkout">
+        Authorize Payment 
+        <i class="fas fa-bolt" style="margin-left: 10px;"></i>
+    </button>
+</form> -->
+       <form id="paymentForm" action="{{ url_for('place_order') }}" method="POST">
+    <input type="hidden" id="total_amount" value="{{ (total_price * 1.18)|round(2) }}">
+
+    <button type="button" onclick="payNowCart()" class="btn-checkout">
+        Authorize Payment 
+        <i class="fas fa-bolt" style="margin-left: 10px;"></i>
+    </button>
+</form>             
                     <div style="text-align: center; margin-top: 25px; font-size: 0.9rem; color: var(--guru-text-dim);">
                         <i class="fas fa-lock" style="color: #4cd137; margin-right: 5px;"></i> End-to-end encrypted secure checkout
                     </div>
@@ -320,4 +332,49 @@
     </div>
 </div>
 
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+function payNowCart() {
+    var amount = document.getElementById("total_amount").value;
+
+    var options = {
+        "key": "rzp_test_SawmDSCZDf6iCT",
+        "amount": amount * 100,
+        "currency": "INR",
+        "name": "Fitness Guru",
+        "description": "Cart Payment",
+
+        "handler": function (response) {
+            fetch("{{ url_for('payment_success_cart') }}", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    "razorpay_payment_id": response.razorpay_payment_id,
+                    "total_amount": amount
+                })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    alert("Payment successful!");
+                    window.location.reload();
+                } else {
+                    alert("Payment failed (backend)!");
+                }
+            });
+        }
+    };
+
+    var rzp = new Razorpay(options);
+
+    // rzp.on('payment.failed', function (response){
+    //     console.log(response.error);
+    //     alert("Payment Failed: " + response.error.description);
+    // });
+
+    rzp.open();
+}
+</script>
 {% endblock %}

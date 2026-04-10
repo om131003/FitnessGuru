@@ -20,11 +20,17 @@ Get your membership and start your journey today.”</p>
 						<li>{{j[5]}}</li>
 							
 					</ul>
-		<button type="button" 
-        onclick="payNow({{ j[0] | tojson }}, {{ j[3] | float | tojson }})"
-        class="btn btn-danger">
+
+                    {% if session.get('u_id') %}
+<button type="button" onclick="payNow({{ j[0] }}, {{ j[3] }})" class="btn btn-danger">
     Order Now
 </button>
+{% else %}
+<a href="{{ url_for('u_login') }}" class="btn btn-danger">
+    Order Now
+</a>
+{% endif %}
+		
 				</div>
 			</div>
 			{% endfor %}
