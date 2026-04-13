@@ -7,8 +7,11 @@ from werkzeug.utils import secure_filename
 import pymysql
 import os
 import razorpay
-import datetime
+
 import random
+from datetime import datetime
+
+from dateutil.relativedelta import relativedelta
 
 app = Flask(__name__)
 app.config["SESSION_PERMANENT"] = False
@@ -705,19 +708,55 @@ def logout():
 
 
 #<===================USER DASHBOARD==================>
+# @app.route("/u_dashboard")
+# def u_dashboard():
+#     u_id = session.get('u_id')   # ✅ safe access
+
+#     has_subscription = False  # default
+
+#     if u_id:  # only check if logged in
+#         cursor = conn.cursor()
+#         cursor.execute("SELECT COUNT(*) FROM tbl_sub WHERE u_id = %s", (u_id,))
+#         result = cursor.fetchone()
+#         has_subscription = result[0] > 0
+
+#     return render_template("user/u_dashboard.html", has_subscription=has_subscription)
+
+
 @app.route("/u_dashboard")
 def u_dashboard():
-    u_id = session.get('u_id')   # ✅ safe access
+    u_id = session.get('u_id')
 
-    has_subscription = False  # default
+    has_active_subscription = False
+    is_expired = False
 
-    if u_id:  # only check if logged in
+    if u_id:
         cursor = conn.cursor()
-        cursor.execute("SELECT COUNT(*) FROM tbl_sub WHERE u_id = %s", (u_id,))
-        result = cursor.fetchone()
-        has_subscription = result[0] > 0
 
-    return render_template("user/u_dashboard.html", has_subscription=has_subscription)
+        query = """
+            SELECT expired_date 
+            FROM tbl_sub 
+            WHERE u_id = %s 
+            ORDER BY expired_date DESC 
+            LIMIT 1
+        """
+        cursor.execute(query, (u_id,))
+        result = cursor.fetchone()
+
+        if result:
+            expired_date = result[0]
+            current_date = datetime.now().date()
+
+            if expired_date >= current_date:
+                has_active_subscription = True
+            else:
+                is_expired = True
+
+    return render_template(
+        "user/u_dashboard.html",
+        has_active_subscription=has_active_subscription,
+        is_expired=is_expired
+    )
 # <===================USER REGISTRATION==================>
 @app.route("/u_registration")
 def u_registration():
@@ -1088,33 +1127,78 @@ def u_view_membership():
 
 
 
+# @app.route('/payment_success', methods=['POST'])
+# def payment_success():
+#     #print("Payment success endpoint hit")
+#     if 'u_id' not in session:
+#         return jsonify({"status": "failed", "message": "User not logged in"}), 401
+    
+#     u_id = session['u_id']
+#     data = request.get_json()
+#     cursor = conn.cursor()
+#     print(u_id)
+
+    
+#     membership_id = data.get('membership_id')
+#     tot_amount = data.get('tot_amount')
+#     razorpay_payment_id = data.get('razorpay_payment_id')
+#     #print(membership_id, tot_amount, razorpay_payment_id)
+
+    
+#     query = """
+#     INSERT INTO tbl_sub (u_id, membership_id, amount, razorpay_payment_id) 
+#     VALUES (%s, %s, %s, %s)
+#     """
+#     cursor.execute(query, (u_id, membership_id, tot_amount, razorpay_payment_id))
+#     conn.commit()
+#     return jsonify({"status": "success"})
+    
+
+
 @app.route('/payment_success', methods=['POST'])
 def payment_success():
-    #print("Payment success endpoint hit")
     if 'u_id' not in session:
         return jsonify({"status": "failed", "message": "User not logged in"}), 401
-    
+
     u_id = session['u_id']
     data = request.get_json()
     cursor = conn.cursor()
-    print(u_id)
 
-    
     membership_id = data.get('membership_id')
     tot_amount = data.get('tot_amount')
     razorpay_payment_id = data.get('razorpay_payment_id')
-    #print(membership_id, tot_amount, razorpay_payment_id)
 
-    
-    query = """
-    INSERT INTO tbl_sub (u_id, membership_id, amount, razorpay_payment_id) 
-    VALUES (%s, %s, %s, %s)
+    # Step 1: Get duration in months
+    duration_query = """
+        SELECT mp_durationmonths 
+        FROM tbl_membershipplans 
+        WHERE membership_id = %s
     """
-    cursor.execute(query, (u_id, membership_id, tot_amount, razorpay_payment_id))
+    cursor.execute(duration_query, (membership_id,))
+    result = cursor.fetchone()
+
+    if not result:
+        return jsonify({"status": "failed", "message": "Invalid membership"}), 400
+
+    duration_months = result[0]
+
+    # Step 2: Calculate expiry date
+    current_date = datetime.now()
+    expired_date = current_date + relativedelta(months=duration_months)
+
+    # Step 3: Insert into tbl_sub
+    insert_query = """
+        INSERT INTO tbl_sub 
+        (u_id, membership_id, amount, razorpay_payment_id, expired_date) 
+        VALUES (%s, %s, %s, %s, %s)
+    """
+    cursor.execute(insert_query, (
+        u_id, membership_id, tot_amount, razorpay_payment_id, expired_date
+    ))
+
     conn.commit()
+
     return jsonify({"status": "success"})
-    
-    
 
 
 

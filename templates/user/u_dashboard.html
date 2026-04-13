@@ -113,7 +113,13 @@
 					<p>Small healthy choices today create a stronger tomorrow.</p>
 
 <a class="btn" 
-   href="{% if has_subscription %}{{ url_for('u_diet') }}{% else %}{{ url_for('u_view_membership') }}{% endif %}">
+   href="{% if has_active_subscription %}
+            {{ url_for('u_diet') }}
+         {% elif is_expired %}
+            {{ url_for('u_view_membership') }}
+         {% else %}
+            {{ url_for('u_view_membership') }}
+         {% endif %}">
    View Schedule
 </a>				</div>
 			</div>
@@ -124,7 +130,11 @@
 					<h3>RECIPES</h3>
 					<p>Simple recipes, powerful nutrition.</p>
 <a class="btn" 
-   href="{% if has_subscription %}{{ url_for('u_recieps') }}{% else %}{{ url_for('u_view_membership') }}{% endif %}">
+   href="{% if has_active_subscription %}
+            {{ url_for('u_recieps') }}
+         {% else %}
+            {{ url_for('u_view_membership') }}
+         {% endif %}">
    View Schedule
 </a>				</div>
 			</div>
