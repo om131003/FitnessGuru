@@ -3,7 +3,7 @@
 
 <head>
 	<meta charset="UTF-8">
-	<title>FITNESS GURU</title>
+	<title>FITNESS CLUB</title>
 	<!-- =================== META =================== -->
 	<meta name="keywords" content="">
 	<meta name="description" content="">
@@ -49,13 +49,13 @@
 										aria-hidden="true"></i><span class="sr-only">Search</span></button>
 					</form>
 					<ul class="social-list">
-						<li><a target="_blank" href="https://www.facebook.com"><i class="fa fa-facebook"
+						<li><a target="_blank" href="https://www.facebook.com"><i class="fab fa-facebook-f"
 									aria-hidden="true"></i></a></li>
-						<li><a target="_blank" href="https://twitter.com"><i class="fa fa-twitter"
+						<li><a target="_blank" href="https://twitter.com"><i class="fab fa-twitter"
 									aria-hidden="true"></i></a></li>
-						<li><a target="_blank" href="https://www.youtube.com"><i class="fa fa-youtube"
+						<li><a target="_blank" href="https://www.youtube.com"><i class="fab fa-youtube"
 									aria-hidden="true"></i></a></li>
-						<li><a target="_blank" href="https://www.instagram.com"><i class="fa fa-instagram"
+						<li><a target="_blank" href="https://www.instagram.com"><i class="fab fa-instagram"
 									aria-hidden="true"></i></a></li>
 					</ul>
 				</div>
@@ -64,8 +64,29 @@
 		<div class="header-menu">
 			<div class="container">
 				<div class="header-logo">
-					<a href="{{ url_for('u_dashboard') }}" class="logo"><img src="/static/user/assets/img/logo.svg"
-							alt="logo"></a>
+					<style>
+					.navbar-brand-logo {
+						height: 45px;
+						width: auto;
+						object-fit: contain;
+						transition: transform 0.3s ease;
+					}
+					
+					.header-logo a:hover .navbar-brand-logo {
+						transform: scale(1.05);
+						filter: drop-shadow(0px 4px 8px rgba(244, 49, 63, 0.4));
+					}
+					
+					/* Revert to icon-only on mobile devices for compactness! */
+					@media (max-width: 768px) {
+						.navbar-brand-logo {
+							content: url('/static/user/assets/img/logo-icon.png');
+							height: 40px;
+						}
+					}
+					</style>
+					<a href="{{ url_for('u_dashboard') }}" class="logo"><img src="/static/user/assets/img/logo-combined.png"
+							class="navbar-brand-logo" alt="logo"></a>
 				</div>
 				<nav class="nav-menu">
 					<ul class="nav-list">
@@ -117,13 +138,13 @@
 							alt="logo"></a>
 					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do</p>
 					<ul class="social-list">
-						<li><a target="_blank" href="https://www.facebook.com/rovadex"><i class="fa fa-facebook"
+						<li><a target="_blank" href="https://www.facebook.com/rovadex"><i class="fab fa-facebook-f"
 									aria-hidden="true"></i></a></li>
-						<li><a target="_blank" href="https://twitter.com/RovadexStudio"><i class="fa fa-twitter"
+						<li><a target="_blank" href="https://twitter.com/RovadexStudio"><i class="fab fa-twitter"
 									aria-hidden="true"></i></a></li>
-						<li><a target="_blank" href="https://www.youtube.com/"><i class="fa fa-youtube"
+						<li><a target="_blank" href="https://www.youtube.com/"><i class="fab fa-youtube"
 									aria-hidden="true"></i></a></li>
-						<li><a target="_blank" href="https://www.instagram.com/rovadex"><i class="fa fa-instagram"
+						<li><a target="_blank" href="https://www.instagram.com/rovadex"><i class="fab fa-instagram"
 									aria-hidden="true"></i></a></li>
 					</ul>
 				</div>

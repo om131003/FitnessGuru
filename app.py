@@ -57,14 +57,56 @@ def dashboard():
     cursor.execute("SELECT COUNT(*)FROM table_product")
     total_products = cursor.fetchone()[0]
 
-
+    # --- ADD NEW MEMBERSHIPS LOGIC --
+    query = """
+        SELECT r.u_name, m.mp_planname, s.created_date, s.expired_date
+        FROM tbl_sub s
+        JOIN tbl_u_registration r ON s.u_id = r.u_id
+        JOIN tbl_membershipplans m ON s.membership_id = m.membership_id
+        ORDER BY s.created_date DESC
+    """
+    cursor.execute(query)
+    memberships_db = cursor.fetchall()
+    
+    # Process the data to calculate status
+    memberships = []
+    current_date = datetime.now().date()
+    for m in memberships_db:
+        uname = m[0]
+        plan = m[1]
+        
+        # safely handle datetime objects versus string dates
+        purchase = m[2].date() if isinstance(m[2], datetime) else m[2]
+        
+        # Check if python needs to parse missing datatypes directly
+        expiry = m[3] if m[3] else current_date
+        if isinstance(expiry, datetime):
+            expiry = expiry.date()
+            
+        status = "Active"
+        try:
+            if expiry < current_date:
+                status = "Expired"
+            elif (expiry - current_date).days <= 5:
+                status = "Expiring Soon"
+        except Exception:
+            pass # fallback if type error on parsing dates
+            
+        memberships.append({
+            'user_name': uname,
+            'plan_name': plan,
+            'purchase_date': purchase,
+            'expiry_date': expiry,
+            'status': status
+        })
 
     return render_template("admin/dashboard.html"
                            , total_exercise_categories=total_exercise_categories
                            , total_exercises=total_exercises
                            , total_diet_categories=total_diet_categories
                            , total_diet_plans=total_diet_plans
-                           , total_products=total_products)
+                           , total_products=total_products
+                           , memberships=memberships)
 
     
 
@@ -729,15 +771,17 @@ def u_dashboard():
 
     has_active_subscription = False
     is_expired = False
+    membership_details = None
 
     if u_id:
         cursor = conn.cursor()
 
         query = """
-            SELECT expired_date 
-            FROM tbl_sub 
-            WHERE u_id = %s 
-            ORDER BY expired_date DESC 
+            SELECT s.expired_date, m.mp_planname, s.amount 
+            FROM tbl_sub s
+            JOIN tbl_membershipplans m ON s.membership_id = m.membership_id
+            WHERE s.u_id = %s 
+            ORDER BY s.expired_date DESC 
             LIMIT 1
         """
         cursor.execute(query, (u_id,))
@@ -745,17 +789,29 @@ def u_dashboard():
 
         if result:
             expired_date = result[0]
+            plan_name = result[1]
+            amount_paid = result[2]
             current_date = datetime.now().date()
 
             if expired_date >= current_date:
                 has_active_subscription = True
+                status = "Active"
             else:
                 is_expired = True
+                status = "Expired"
+                
+            membership_details = {
+                "plan_name": plan_name,
+                "amount_paid": amount_paid,
+                "expired_date": expired_date.strftime('%d %b, %Y') if expired_date else '',
+                "status": status
+            }
 
     return render_template(
         "user/u_dashboard.html",
         has_active_subscription=has_active_subscription,
-        is_expired=is_expired
+        is_expired=is_expired,
+        membership_details=membership_details
     )
 # <===================USER REGISTRATION==================>
 @app.route("/u_registration")
@@ -1088,7 +1144,7 @@ def payment_success_cart():
 
         cursor = conn.cursor()
 
-        order_number = "ORD" + datetime.datetime.now().strftime("%Y%m%d%H%M%S")
+        order_number = "ORD" + datetime.now().strftime("%Y%m%d%H%M%S")
 
         query = """
         INSERT INTO tbl_orders (order_number, u_id, total_amount, order_status)
@@ -1102,7 +1158,13 @@ def payment_success_cart():
         cursor.execute(cart_query, (user_id,))
         cart_items = cursor.fetchall()
 
-       
+        for item in cart_items:
+            product_id = item[0]
+            qty = item[1]
+            cursor.execute("""
+                INSERT INTO order_details (order_id, product_id, qty)
+                VALUES (%s, %s, %s)
+            """, (order_id, product_id, qty))
 
         cursor.execute("DELETE FROM table_cart WHERE u_id=%s", (user_id,))
 
@@ -1203,10 +1265,57 @@ def payment_success():
 
 
 
-
-
-
+@app.route("/a_view_all_memberships")
+def a_view_all_memberships():
+    if 'admin_id' not in session:
+        return redirect(url_for('login'))
+        
+    cursor = conn.cursor()
+    query = """
+        SELECT r.u_name, m.mp_planname, s.created_date, s.expired_date
+        FROM tbl_sub s
+        JOIN tbl_u_registration r ON s.u_id = r.u_id
+        JOIN tbl_membershipplans m ON s.membership_id = m.membership_id
+        ORDER BY s.created_date DESC
+    """
+    cursor.execute(query)
+    memberships_db = cursor.fetchall()
     
+    # Process the data to calculate status
+    memberships = []
+    current_date = datetime.now().date()
+    for m in memberships_db:
+        uname = m[0]
+        plan = m[1]
+        
+        # safely handle datetime objects versus string dates
+        purchase = m[2].date() if isinstance(m[2], datetime) else m[2]
+        
+        # Check if python needs to parse missing datatypes directly
+        expiry = m[3] if m[3] else current_date
+        if isinstance(expiry, datetime):
+            expiry = expiry.date()
+            
+        status = "Active"
+        try:
+            if expiry < current_date:
+                status = "Expired"
+            elif (expiry - current_date).days <= 5:
+                status = "Expiring Soon"
+        except Exception:
+            pass # fallback if type error on parsing dates
+            
+        memberships.append({
+            'user_name': uname,
+            'plan_name': plan,
+            'purchase_date': purchase,
+            'expiry_date': expiry,
+            'status': status
+        })
+        
+    return render_template("admin/view_all_memberships.html", memberships=memberships)
+
+
 if __name__ == "__main__":
     app.run(debug=True)
 

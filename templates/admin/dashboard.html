@@ -159,6 +159,67 @@
         </div>
       </div><!-- /quick actions -->
 
+      <!-- ── User Memberships ── -->
+      <div style="background:#fff;border-radius:20px;border:1px solid #e8edf5;box-shadow:0 4px 16px rgba(45,50,80,0.07);padding:28px 30px; margin-top:32px;">
+         <div class="d-flex justify-content-between align-items-center mb-4">
+              <h2 style="font-family:'Poppins',sans-serif;font-size:17px;font-weight:700;color:#1a2035;margin:0;display:flex;align-items:center;gap:10px;">
+                <span style="background:linear-gradient(135deg,#f9b17a,#f0924a);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">👥</span>
+                User Memberships
+              </h2>
+              
+              <!-- Search and Filter Controls -->
+              <div class="d-flex align-items-center" style="gap: 15px;">
+                  <input type="text" id="searchInput" class="form-control" placeholder="Search user or plan..." style="width: 250px; border-radius: 10px;">
+                  <select id="statusFilter" class="form-control" style="width: 180px; border-radius: 10px;">
+                      <option value="All">All Statuses</option>
+                      <option value="Active">Active</option>
+                      <option value="Expiring Soon">Expiring Soon</option>
+                      <option value="Expired">Expired</option>
+                  </select>
+              </div>
+          </div>
+          <div class="table-responsive">
+              <table class="table table-bordered table-md" id="membershipsTable">
+                <thead>
+                    <tr style="background:#f4f6fb;">
+                      <th>#</th>
+                      <th onclick="sortTable(1)" style="cursor: pointer;">User Name <i class="fas fa-sort"></i></th>
+                      <th onclick="sortTable(2)" style="cursor: pointer;">Plan Purchased <i class="fas fa-sort"></i></th>
+                      <th onclick="sortTable(3)" style="cursor: pointer;">Purchase Date <i class="fas fa-sort"></i></th>
+                      <th onclick="sortTable(4)" style="cursor: pointer;">Expiry Date <i class="fas fa-sort"></i></th>
+                      <th>Status</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  {% for m in memberships %}
+                  <tr class="membership-row">
+                    <td>{{ loop.index }}</td>
+                    <td class="search-target" style="font-weight:600; color:#1a2035;">{{ m.user_name }}</td>
+                    <td class="search-target">{{ m.plan_name }}</td>
+                    <td>{{ m.purchase_date }}</td>
+                    <td>{{ m.expiry_date }}</td>
+                    <td class="status-target">
+                        {% if m.status == "Active" %}
+                            <span class="badge badge-success text-uppercase">{{ m.status }}</span>
+                        {% elif m.status == "Expiring Soon" %}
+                            <span class="badge badge-warning text-uppercase">{{ m.status }}</span>
+                        {% elif m.status == "Expired" %}
+                            <span class="badge badge-danger text-uppercase">{{ m.status }}</span>
+                        {% else %}
+                            <span class="badge badge-secondary text-uppercase">{{ m.status }}</span>
+                        {% endif %}
+                    </td>
+                  </tr>
+                  {% else %}
+                  <tr>
+                      <td colspan="6" class="text-center" style="padding: 30px;">No membership records found.</td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+          </div>
+      </div><!-- /user memberships -->
+
     </div>
   </section>
 </div>
@@ -169,6 +230,59 @@
   if (dateEl) {
     const now = new Date();
     dateEl.textContent = now.toLocaleDateString('en-IN', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+  }
+
+  // Memberships Filtering and Sorting
+  document.addEventListener("DOMContentLoaded", function() {
+      const searchInput = document.getElementById('searchInput');
+      const statusFilter = document.getElementById('statusFilter');
+      const table = document.getElementById('membershipsTable');
+      
+      if(searchInput && statusFilter && table) {
+          function filterTable() {
+              const query = searchInput.value.toLowerCase();
+              const statusVal = statusFilter.value;
+              const rows = table.querySelectorAll('tbody .membership-row');
+              
+              rows.forEach(row => {
+                  const textContent = row.innerText.toLowerCase();
+                  const statusContent = row.querySelector('.status-target').innerText.trim();
+                  
+                  const matchesSearch = textContent.includes(query);
+                  const matchesStatus = (statusVal === "All") || (statusContent === statusVal.toUpperCase());
+                  
+                  row.style.display = matchesSearch && matchesStatus ? "" : "none";
+              });
+          }
+
+          searchInput.addEventListener("input", filterTable);
+          statusFilter.addEventListener("change", filterTable);
+      }
+  });
+
+  // Basic Sorting Functionality
+  let sortDirection = false;
+  function sortTable(columnIndex) {
+      const table = document.getElementById("membershipsTable");
+      if(!table) return;
+      const tbody = table.querySelector("tbody");
+      const rows = Array.from(tbody.querySelectorAll(".membership-row"));
+      
+      sortDirection = !sortDirection; // toggle direction
+      
+      rows.sort((a, b) => {
+          let cellA = a.children[columnIndex].innerText.trim();
+          let cellB = b.children[columnIndex].innerText.trim();
+          
+          if (!isNaN(Date.parse(cellA)) && !isNaN(Date.parse(cellB))) {
+              return sortDirection ? new Date(cellA) - new Date(cellB) : new Date(cellB) - new Date(cellA);
+          }
+          
+          return sortDirection ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+      });
+      
+      // re-append rows in sorted order
+      rows.forEach(row => tbody.appendChild(row));
   }
 </script>
 

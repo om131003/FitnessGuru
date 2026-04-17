@@ -1,0 +1,126 @@
+{% extends "admin/layout.html" %}
+
+{% block content %}
+<div class="main-content">
+  <section class="section">
+    <div class="section-body">
+      <div class="row">
+        <div class="col-12">
+          <div class="card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+              <h4>User Memberships Management</h4>
+              
+              <!-- Search and Filter Controls -->
+              <div class="d-flex align-items-center gap-2" style="gap: 15px;">
+                  <input type="text" id="searchInput" class="form-control" placeholder="Search user or plan..." style="width: 250px;">
+                  <select id="statusFilter" class="form-control" style="width: 180px;">
+                      <option value="All">All Statuses</option>
+                      <option value="Active">Active</option>
+                      <option value="Expiring Soon">Expiring Soon</option>
+                      <option value="Expired">Expired</option>
+                  </select>
+              </div>
+            </div>
+            <div class="card-body">
+              <div class="table-responsive">
+                  <table class="table table-bordered table-md" id="membershipsTable">
+                    <thead>
+                        <tr>
+                          <th>#</th>
+                          <th onclick="sortTable(1)" style="cursor: pointer;">User Name <i class="fas fa-sort"></i></th>
+                          <th onclick="sortTable(2)" style="cursor: pointer;">Plan Purchased <i class="fas fa-sort"></i></th>
+                          <th onclick="sortTable(3)" style="cursor: pointer;">Purchase Date <i class="fas fa-sort"></i></th>
+                          <th onclick="sortTable(4)" style="cursor: pointer;">Expiry Date <i class="fas fa-sort"></i></th>
+                          <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                      {% for m in memberships %}
+                      <tr class="membership-row">
+                        <td>{{ loop.index }}</td>
+                        <td class="search-target">{{ m.user_name }}</td>
+                        <td class="search-target">{{ m.plan_name }}</td>
+                        <td>{{ m.purchase_date }}</td>
+                        <td>{{ m.expiry_date }}</td>
+                        <td class="status-target">
+                            {% if m.status == "Active" %}
+                                <span class="badge badge-success text-uppercase">{{ m.status }}</span>
+                            {% elif m.status == "Expiring Soon" %}
+                                <span class="badge badge-warning text-uppercase">{{ m.status }}</span>
+                            {% elif m.status == "Expired" %}
+                                <span class="badge badge-danger text-uppercase">{{ m.status }}</span>
+                            {% else %}
+                                <span class="badge badge-secondary text-uppercase">{{ m.status }}</span>
+                            {% endif %}
+                        </td>
+                      </tr>
+                      {% else %}
+                      <tr>
+                          <td colspan="6" class="text-center">No membership records found.</td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- Simple JS for filtering and sorting -->
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+    const searchInput = document.getElementById('searchInput');
+    const statusFilter = document.getElementById('statusFilter');
+    const table = document.getElementById('membershipsTable');
+    
+    function filterTable() {
+        const query = searchInput.value.toLowerCase();
+        const statusVal = statusFilter.value;
+        const rows = table.querySelectorAll('tbody .membership-row');
+        
+        rows.forEach(row => {
+            const textContent = row.innerText.toLowerCase();
+            const statusContent = row.querySelector('.status-target').innerText.trim();
+            
+            const matchesSearch = textContent.includes(query);
+            const matchesStatus = (statusVal === "All") || (statusContent === statusVal.toUpperCase());
+            
+            row.style.display = matchesSearch && matchesStatus ? "" : "none";
+        });
+    }
+
+    searchInput.addEventListener("input", filterTable);
+    statusFilter.addEventListener("change", filterTable);
+});
+
+// Basic Sorting Functionality
+let sortDirection = false;
+function sortTable(columnIndex) {
+    const table = document.getElementById("membershipsTable");
+    const tbody = table.querySelector("tbody");
+    const rows = Array.from(tbody.querySelectorAll(".membership-row"));
+    
+    sortDirection = !sortDirection; // toggle direction
+    
+    rows.sort((a, b) => {
+        let cellA = a.children[columnIndex].innerText.trim();
+        let cellB = b.children[columnIndex].innerText.trim();
+        
+        // Attempt Date parsing if it looks like a date (roughly)
+        if (!isNaN(Date.parse(cellA)) && !isNaN(Date.parse(cellB))) {
+            return sortDirection ? new Date(cellA) - new Date(cellB) : new Date(cellB) - new Date(cellA);
+        }
+        
+        return sortDirection ? cellA.localeCompare(cellB) : cellB.localeCompare(cellA);
+    });
+    
+    // re-append rows in sorted order
+    rows.forEach(row => tbody.appendChild(row));
+}
+</script>
+
+{% endblock %}

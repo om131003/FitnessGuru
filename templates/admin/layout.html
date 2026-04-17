@@ -4,7 +4,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-  <title>Admin Dashboard — Fitness Guru</title>
+  <title>Admin Dashboard — Fitness Club</title>
   <link rel="shortcut icon" type="image/x-icon" href="/static/admin/assets/img/favicon.ico">
 
   <!-- Google Fonts -->
@@ -103,9 +103,8 @@
           <!-- Brand -->
           <div class="sidebar-brand">
             <a href="{{ url_for('dashboard') }}">
-              <img src="{{ url_for('static', filename='Images/Fitness Guru logo.png') }}" id="lo"
-                alt="Fitness Guru Logo">
-              <span class="logo-name">FITNESS GURU</span>
+              <img src="{{ url_for('static', filename='Images/Fitness Club logo.png') }}" id="lo"
+                alt="Fitness Club Logo" style="max-width: 85%; height: auto; max-height: 55px; object-fit: contain; margin-top: 5px;">
             </a>
           </div>
 
@@ -221,9 +220,12 @@
                     Add Plan</a></li>
                 <li><a class="nav-link" href="{{ url_for('view_membership') }}"><i class="fas fa-list me-2"></i> View
                     Plans</a></li>
+                <li><a class="nav-link" href="{{ url_for('a_view_all_memberships') }}"><i class="fas fa-users me-2"></i>
+                    User Memberships</a></li>
               </ul>
             </li>
 
+            <li style="height: 100px; list-style: none;"></li>
           </ul><!-- /sidebar-menu -->
         </aside>
       </div>
@@ -237,7 +239,7 @@
       <!-- Footer -->
       <footer
         style="text-align:center;padding:20px 24px;font-size:12px;color:#94a3b8;border-top:1px solid #e8edf5;background:#fff;margin-top:auto;">
-        &copy; 2024 <strong style="color:#2d3250;">Fitness Guru</strong> — Admin Panel. All rights reserved.
+        &copy; 2024 <strong style="color:#2d3250;">Fitness Club</strong> — Admin Panel. All rights reserved.
       </footer>
 
     </div><!-- /main-wrapper -->
