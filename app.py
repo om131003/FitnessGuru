@@ -29,6 +29,7 @@ UPLOAD_FOLDER1 ='static/product_img'
 UPLOAD_FOLDER2 ='static/exercise_video'
 UPLOAD_FOLDER3 ='static/diet_image'
 UPLOAD_FOLDER4='static/execat_image'
+UPLOAD_FOLDER5='static/exercise_img'
 
 
 @app.route("/dashboard")
@@ -361,6 +362,7 @@ def manageexe():
     exercise_name = request.form['exercise_name']
     cat_id = request.form['cat_id']
     video_url = request.files['video_url']
+    exe_image = request.files['exe_image']
     exe_equipment = request.form['exe_equipment']
     exe_sets = request.form['exe_sets']
     exe_reps = request.form['exe_reps']
@@ -370,13 +372,17 @@ def manageexe():
     video_url.save(os.path.join(UPLOAD_FOLDER2, exercise_video))
     path = os.path.join(UPLOAD_FOLDER2, exercise_video)
 
+    exercise_img_filename = secure_filename(exe_image.filename)
+    exe_image.save(os.path.join(UPLOAD_FOLDER5, exercise_img_filename))
+    img_path = os.path.join(UPLOAD_FOLDER5, exercise_img_filename)
+
     query = """
     INSERT INTO tbl_manageexercise
-    (cat_id, exercise_name, video_url, exe_equipment, exe_sets, exe_reps, exe_description)
-    VALUES (%s, %s, %s, %s, %s, %s, %s)
+    (cat_id, exercise_name, video_url, exe_equipment, exe_sets, exe_reps, exe_description, exe_image)
+    VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
     """
 
-    val = (cat_id, exercise_name, path, exe_equipment, exe_sets, exe_reps, exe_description)
+    val = (cat_id, exercise_name, path, exe_equipment, exe_sets, exe_reps, exe_description, img_path)
 
     cursor.execute(query, val)
 
@@ -389,7 +395,7 @@ def manageexe():
 def view_exercise():
         cursor = conn.cursor()
         query = """
-        SELECT exercise_id, cat_name, exercise_name, video_url, exe_equipment, exe_sets, exe_reps,exe_description FROM tbl_manageexercise JOIN tbl_exercisecategory ON tbl_manageexercise.cat_id = tbl_exercisecategory.cat_id
+        SELECT exercise_id, cat_name, exercise_name, video_url, exe_equipment, exe_sets, exe_reps,exe_description, exe_image FROM tbl_manageexercise JOIN tbl_exercisecategory ON tbl_manageexercise.cat_id = tbl_exercisecategory.cat_id
         """
         cursor.execute(query)
         view_exercise = cursor.fetchall()
@@ -427,6 +433,7 @@ def update_exercise():
     exercise_id = request.form['exercise_id']
     exercise_name = request.form['exercise_name']
     video_url =request.files['video_url']
+    exe_image =request.files['exe_image']
     exe_equipment =request.form['exe_equipment']
     exe_sets =request.form['exe_sets']
     exe_reps =request.form['exe_reps']
@@ -434,8 +441,12 @@ def update_exercise():
     exercise_video = secure_filename(video_url.filename)
     video_url.save(os.path.join(UPLOAD_FOLDER2,exercise_video))
     path= os.path.join(UPLOAD_FOLDER2,exercise_video)
-    query = "UPDATE tbl_manageexercise SET exercise_name=%s, video_url=%s, exe_equipment=%s, exe_sets=%s, exe_reps=%s, exe_description=%s WHERE exercise_id=%s"
-    val = (exercise_name,path, exe_equipment, exe_sets, exe_reps, exe_description, exercise_id)
+
+    exercise_img_filename = secure_filename(exe_image.filename)
+    exe_image.save(os.path.join(UPLOAD_FOLDER5, exercise_img_filename))
+    img_path = os.path.join(UPLOAD_FOLDER5, exercise_img_filename)
+    query = "UPDATE tbl_manageexercise SET exercise_name=%s, video_url=%s, exe_equipment=%s, exe_sets=%s, exe_reps=%s, exe_description=%s, exe_image=%s WHERE exercise_id=%s"
+    val = (exercise_name,path, exe_equipment, exe_sets, exe_reps, exe_description, img_path, exercise_id)
     cursor.execute(query, val)
     conn.commit()
     cursor.close()

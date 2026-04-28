@@ -61,7 +61,17 @@
         </div>
 
         <!-- Right: User dropdown -->
-        <ul class="navbar-nav navbar-right">
+        <ul class="navbar-nav navbar-right align-items-center">
+
+          <!-- Go to User Site Button -->
+          <li class="nav-item d-none d-sm-block" style="margin-right: 15px;">
+            <a href="{{ url_for('u_dashboard') }}" target="_blank" class="btn"
+              style="background: linear-gradient(135deg, #f9b17a, #f0924a); color: #2d3250; font-weight: 700; border-radius: 30px; padding: 0.4rem 1.2rem; font-size: 13px; box-shadow: 0 4px 10px rgba(249,177,122,0.3); transition: all 0.3s ease;"
+              onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 6px 15px rgba(249,177,122,0.5)';"
+              onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 10px rgba(249,177,122,0.3)';">
+              <i class="fas fa-external-link-alt" style="margin-right: 4px;"></i> Go to User Site
+            </a>
+          </li>
 
           <!-- User menu -->
           <li class="dropdown">
@@ -104,7 +114,8 @@
           <div class="sidebar-brand">
             <a href="{{ url_for('dashboard') }}">
               <img src="{{ url_for('static', filename='Images/Fitness Club logo.png') }}" id="lo"
-                alt="Fitness Club Logo" style="max-width: 85%; height: auto; max-height: 55px; object-fit: contain; margin-top: 5px;">
+                alt="Fitness Club Logo"
+                style="max-width: 85%; height: auto; max-height: 55px; object-fit: contain; margin-top: 5px;">
             </a>
           </div>
 

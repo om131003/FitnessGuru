@@ -19,7 +19,7 @@
 						style="background-image: url(/static/user/assets/img/effect-2.svg);"></span>
 				</div>
 			</div>
-			<div class="crossfit-slide-bg" style="background-image: url(/static/user/assets/img/slide-1.jpg);"></div>
+			<div class="crossfit-slide-bg" style="background-image: url(/static/user/assets/img/896747.jpg);"></div>
 			<div class="container">
 				<div class="crossfit-slide-cover">
 					<h2 class="title">push <span>yourself</span></h2>
@@ -113,16 +113,16 @@
 					<h3>DIET PLANS</h3>
 					<p>Small healthy choices today create a stronger tomorrow.</p>
 
-<a class="btn" 
-   href="{% if has_active_subscription %}
+					<a class="btn" href="{% if has_active_subscription %}
             {{ url_for('u_diet') }}
          {% elif is_expired %}
             {{ url_for('u_view_membership') }}
          {% else %}
             {{ url_for('u_view_membership') }}
          {% endif %}">
-   View Schedule
-</a>				</div>
+						View Schedule
+					</a>
+				</div>
 			</div>
 			<div class="col-md-4 crossfit-col">
 				<div class="crossfit-item">
@@ -130,14 +130,14 @@
 						data-src="/static/user/assets/img/fooddd.png" alt="img" style="width: 160px;">
 					<h3>RECIPES</h3>
 					<p>Simple recipes, powerful nutrition.</p>
-<a class="btn" 
-   href="{% if has_active_subscription %}
+					<a class="btn" href="{% if has_active_subscription %}
             {{ url_for('u_recieps') }}
          {% else %}
             {{ url_for('u_view_membership') }}
          {% endif %}">
-   View Schedule
-</a>				</div>
+						View Schedule
+					</a>
+				</div>
 			</div>
 		</div>
 	</div>
@@ -331,173 +331,176 @@
 <!-- ============= S-OUT-TRAINER END ============= -->
 
 <!-- ============ S-CROSSFIT-BANNER ============ -->
-<section class="s-crossfit-banner">
+<!-- <section class="s-crossfit-banner">
 	<div class="crossfit-banner-left" style="background-image: url(/static/user/assets/img/crossmax-2.jpg);"></div>
 	<div class="crossfit-banner-right">
 		<div class="text-top">open</div>
 		<h2>crossmax</h2>
 		<div class="text-bottom">free open <a href="program.html">training</a></div>
 	</div>
-</section>
+</section> -->
 <!-- ========== S-CROSSFIT-BANNER END ========== -->
 
 <!-- ============ MEMBERSHIP DETAILS ============ -->
 {% if membership_details %}
-	<style>
-		@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Michroma&display=swap');
+<style>
+	@import url('https://fonts.googleapis.com/css2?family=Black+Ops+One&family=Michroma&display=swap');
 
-		.s-membership-info {
-			position: relative;
-			padding: 80px 0;
-			background-image: url('/static/user/assets/img/slide-2.jpg');
-			background-size: cover;
-			background-position: center;
-			background-attachment: fixed;
-		}
+	.s-membership-info {
+		position: relative;
+		padding: 80px 0;
+		background-image: url('/static/user/assets/img/slide-2.jpg');
+		background-size: cover;
+		background-position: center;
+		background-attachment: fixed;
+	}
 
-		.s-membership-info .overlay {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-			background: rgba(15, 15, 20, 0.90);
-			z-index: 1;
-		}
+	.s-membership-info .overlay {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(15, 15, 20, 0.90);
+		z-index: 1;
+	}
 
-		.s-membership-info .container {
-			position: relative;
-			z-index: 2;
-			text-align: center;
+	.s-membership-info .container {
+		position: relative;
+		z-index: 2;
+		text-align: center;
+	}
+
+	.s-membership-info .title {
+		color: #fff;
+		font-size: 42px;
+		font-weight: 700;
+		margin-bottom: 20px;
+		letter-spacing: 1px;
+	}
+
+	.s-membership-info .title span {
+		color: #f4313f;
+	}
+
+	.s-membership-info .red-line {
+		width: 60px;
+		height: 4px;
+		background-color: #f4313f;
+		margin: 0 auto 30px auto;
+	}
+
+	.s-membership-info .description {
+		color: #cccccc;
+		max-width: 650px;
+		margin: 0 auto 50px auto;
+		font-size: 16px;
+		line-height: 1.6;
+	}
+
+	.membership-stats-row {
+		display: flex;
+		justify-content: center;
+		flex-wrap: wrap;
+		gap: 20px;
+		margin-top: 40px;
+	}
+
+	.stat-box {
+		text-align: center;
+		flex: 1 1 220px;
+		margin-bottom: 30px;
+		padding: 0 10px;
+		display: flex;
+		flex-direction: column;
+		justify-content: flex-end;
+	}
+
+	.stat-number {
+		font-size: clamp(30px, 4vw, 50px);
+		color: #f4313f;
+		font-family: 'Black Ops One', cursive, sans-serif;
+		line-height: 1.1;
+		margin-bottom: 15px;
+		text-transform: uppercase;
+		text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+		word-wrap: break-word;
+		overflow-wrap: break-word;
+	}
+
+	.stat-number.status-active {
+		color: #2ecc71;
+	}
+
+	.stat-label {
+		font-size: 16px;
+		color: #ffffff;
+		font-family: 'Michroma', sans-serif;
+		letter-spacing: 2px;
+		text-transform: uppercase;
+		margin-top: auto;
+	}
+
+	@media (max-width: 768px) {
+		.stat-box {
+			flex: 1 1 45%;
 		}
 
 		.s-membership-info .title {
-			color: #fff;
-			font-size: 42px;
-			font-weight: 700;
-			margin-bottom: 20px;
-			letter-spacing: 1px;
+			font-size: 32px;
 		}
+	}
 
-		.s-membership-info .title span {
-			color: #f4313f;
-		}
-
-		.s-membership-info .red-line {
-			width: 60px;
-			height: 4px;
-			background-color: #f4313f;
-			margin: 0 auto 30px auto;
-		}
-
-		.s-membership-info .description {
-			color: #cccccc;
-			max-width: 650px;
-			margin: 0 auto 50px auto;
-			font-size: 16px;
-			line-height: 1.6;
-		}
-
-		.membership-stats-row {
-			display: flex;
-			justify-content: center;
-			flex-wrap: wrap;
-			gap: 20px;
-			margin-top: 40px;
-		}
-
+	@media (max-width: 480px) {
 		.stat-box {
-			text-align: center;
-			flex: 1 1 220px;
-			margin-bottom: 30px;
-			padding: 0 10px;
-			display: flex;
-			flex-direction: column;
-			justify-content: flex-end;
+			flex: 1 1 100%;
 		}
+	}
+</style>
 
-		.stat-number {
-			font-size: clamp(30px, 4vw, 50px);
-			color: #f4313f;
-			font-family: 'Black Ops One', cursive, sans-serif;
-			line-height: 1.1;
-			margin-bottom: 15px;
-			text-transform: uppercase;
-			text-shadow: 2px 2px 5px rgba(0,0,0,0.5);
-			word-wrap: break-word;
-			overflow-wrap: break-word;
-		}
+<section class="s-membership-info">
+	<div class="overlay"></div>
+	<div class="container">
+		<h2 class="title">Membership <span>Info</span></h2>
+		<div class="red-line"></div>
+		<p class="description">
+			Hello {{ session.u_name }}, here are the details of your current subscription plan.
+			Keep pushing your limits because real strength is built through discipline and consistency. Every drop of
+			sweat brings you closer to your goal!
+		</p>
 
-		.stat-number.status-active {
-			color: #2ecc71;
-		}
+		<div class="membership-stats-row">
+			<!-- Amount Paid -->
+			<div class="stat-box">
+				<div class="stat-number">₹{{ membership_details.amount_paid }}</div>
+				<div class="stat-label">AMOUNT PAID</div>
+			</div>
 
-		.stat-label {
-			font-size: 16px;
-			color: #ffffff;
-			font-family: 'Michroma', sans-serif;
-			letter-spacing: 2px;
-			text-transform: uppercase;
-			margin-top: auto;
-		}
+			<!-- Plan Name -->
+			<div class="stat-box">
+				<div class="stat-number">{{ membership_details.plan_name }}</div>
+				<div class="stat-label">PLAN</div>
+			</div>
 
-		@media (max-width: 768px) {
-			.stat-box {
-				flex: 1 1 45%;
-			}
-			.s-membership-info .title {
-				font-size: 32px;
-			}
-		}
-		
-		@media (max-width: 480px) {
-			.stat-box {
-				flex: 1 1 100%;
-			}
-		}
-	</style>
-
-	<section class="s-membership-info">
-		<div class="overlay"></div>
-		<div class="container">
-			<h2 class="title">Membership <span>Info</span></h2>
-			<div class="red-line"></div>
-			<p class="description">
-				Hello {{ session.u_name }}, here are the details of your current subscription plan. 
-				Keep pushing your limits because real strength is built through discipline and consistency. Every drop of sweat brings you closer to your goal!
-			</p>
-			
-			<div class="membership-stats-row">
-				<!-- Amount Paid -->
-				<div class="stat-box">
-					<div class="stat-number">₹{{ membership_details.amount_paid }}</div>
-					<div class="stat-label">AMOUNT PAID</div>
+			<!-- Ends On -->
+			<div class="stat-box">
+				<div class="stat-number"
+					style="font-size: 45px; display: flex; align-items: center; justify-content: center; min-height: 70px;">
+					{{ membership_details.expired_date }}
 				</div>
+				<div class="stat-label">ENDS ON</div>
+			</div>
 
-				<!-- Plan Name -->
-				<div class="stat-box">
-					<div class="stat-number">{{ membership_details.plan_name }}</div>
-					<div class="stat-label">PLAN</div>
+			<!-- Status -->
+			<div class="stat-box">
+				<div class="stat-number {% if membership_details.status == 'Active' %}status-active{% endif %}">
+					{{ membership_details.status }}
 				</div>
-
-				<!-- Ends On -->
-				<div class="stat-box">
-					<div class="stat-number" style="font-size: 45px; display: flex; align-items: center; justify-content: center; min-height: 70px;">
-						{{ membership_details.expired_date }}
-					</div>
-					<div class="stat-label">ENDS ON</div>
-				</div>
-
-				<!-- Status -->
-				<div class="stat-box">
-					<div class="stat-number {% if membership_details.status == 'Active' %}status-active{% endif %}">
-						{{ membership_details.status }}
-					</div>
-					<div class="stat-label">STATUS</div>
-				</div>
+				<div class="stat-label">STATUS</div>
 			</div>
 		</div>
-	</section>
+	</div>
+</section>
 {% endif %}
 <!-- ============ MEMBERSHIP DETAILS END ============ -->
 
@@ -537,7 +540,7 @@
 <!-- ============ S-TESTIMONIALS END ============ -->
 
 <!--================ RELATED POSTS ================-->
-<section class="s-related-posts home-related-posts">
+<!-- <section class="s-related-posts home-related-posts">
 	<div class="container">
 		<h2 class="title-decor">Latest <span>News</span></h2>
 		<p class="slogan">Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor
@@ -673,11 +676,11 @@
 			</div>
 		</div>
 	</div>
-</section>
+</section> -->
 <!--============== RELATED POSTS END ==============-->
 
 <!-- =========== S-TRAINING-SCHEDULE =========== -->
-<section class="s-training-schedule" style="background-image: url(/static/user/assets/img/bg-table-1.svg);">
+<!-- <section class="s-training-schedule" style="background-image: url(/static/user/assets/img/bg-table-1.svg);">
 	<div class="container">
 		<h2 class="title-decor">Training <span>Schedule</span></h2>
 		<p class="slogan">Maecenas consequat ex id lobortis venenatis. Mauris id erat enim. Morbi dolor dolor, auctor
@@ -800,7 +803,7 @@
 			</div>
 		</div>
 	</div>
-</section>
+</section> -->
 <!-- ========= S-TRAINING-SCHEDULE END ========= -->
 
 
